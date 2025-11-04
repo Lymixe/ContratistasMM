@@ -1,0 +1,45 @@
+@page
+@model ContratistasMM.Areas.Identity.Pages.Account.LoginModel
+
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+    // La línea de Layout aquí es ahora redundante gracias al _ViewStart, pero no hace daño dejarla.
+    Layout = "/Views/Shared/_Layout.cshtml"; 
+}
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-icon">
+            <i class="fas fa-lock"></i>
+        </div>
+        <h2>@ViewData["Title"]</h2>
+        <p class="text-muted">Accede a tu cuenta para ver tu proyecto</p>
+
+        <section>
+            <form id="account" method="post" class="mt-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="tu@email.com" />
+                    <label asp-for="Input.Email" class="form-label">Correo Electrónico</label>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                    <label asp-for="Input.Password" class="form-label">Contraseña</label>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary-solid">Iniciar Sesión</button>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a id="forgot-password" asp-page="./ForgotPassword">¿Olvidaste tu contraseña?</a>
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registrar nuevo usuario</a>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

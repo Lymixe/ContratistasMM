@@ -1,63 +1,22 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
-
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
-}
-
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
-}
-
-
-/* Paleta de Colores y Variables Globales */
+/* --- Paleta de Colores y Variables Globales --- */
 :root {
-    --primary-blue: #1E3A8A; /* El nuevo color azul que especificaste */
-    --light-blue-accent: #3B82F6; /* Un azul más claro para los botones */
+    --primary-blue: #1E3A8A;
+    --light-blue-accent: #3B82F6;
     --light-gray-bg: #f8f9fa;
     --text-dark: #333;
     --text-light: #f1f1f1;
 }
 
+/* --- Configuración Base --- */
 html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-html {
+  font-size: 16px;
   position: relative;
   min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
   color: var(--text-dark);
+  /* Eliminamos el margin-bottom para corregir el espacio en blanco */
 }
 
 /* --- Barra de Navegación --- */
@@ -65,29 +24,38 @@ body {
     background-color: var(--primary-blue) !important;
 }
 
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
 .navbar-brand img {
-    height: 40px; /* Ajusta la altura de tu logo */
+    height: 40px;
+    margin-right: 10px;
 }
 
 /* Para centrar los links de navegación */
-.navbar-nav.main-nav {
-    margin: 0 auto;
+.navbar-collapse {
+    justify-content: space-between;
+}
+
+.main-nav {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .navbar-dark .navbar-nav .nav-link {
-    color: rgba(255, 255, 255, 0.8);
+    color: white !important; /* Forzamos el color blanco para todos los links */
     padding: 0 15px;
-}
-
-.navbar-dark .navbar-nav .nav-link:hover,
-.navbar-dark .navbar-nav .nav-link.active {
-    color: #ffffff;
+    font-weight: 500;
 }
 
 /* --- Sección Hero (Banner principal) --- */
 .hero-section {
     position: relative;
-    height: 80vh; /* Un poco más alto para mayor impacto */
+    height: 80vh;
     color: white;
     display: flex;
     align-items: center;
@@ -98,11 +66,9 @@ body {
 .hero-section::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('../img/hero-bg.jpg');
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url('../img/hero-bg.png');
     background-size: cover;
     background-position: center;
     filter: brightness(0.4);
@@ -119,154 +85,111 @@ body {
 .btn-custom-primary {
     background-color: var(--light-blue-accent);
     border-color: var(--light-blue-accent);
-    color: white;
-    padding: 12px 30px;
-    font-weight: bold;
-    margin: 5px;
+    color: white; padding: 12px 30px;
+    font-weight: bold; margin: 5px;
 }
-
 .btn-custom-primary:hover {
     background-color: #2563EB;
     border-color: #2563EB;
     color: white;
 }
-
 .btn-custom-secondary {
     background-color: transparent;
     border: 2px solid white;
-    color: white;
-    padding: 12px 30px;
-    font-weight: bold;
-    margin: 5px;
+    color: white; padding: 12px 30px;
+    font-weight: bold; margin: 5px;
 }
-
 .btn-custom-secondary:hover {
     background-color: white;
     color: var(--primary-blue);
 }
 
 /* --- Secciones de Contenido (Por qué elegirnos, Misión) --- */
-.content-section {
-    padding: 80px 0;
+.content-section { padding: 80px 0; }
+.section-title { text-align: center; margin-bottom: 50px; }
+.section-title h2 { font-size: 2.5rem; font-weight: 600; color: var(--primary-blue); }
+.feature-card { border: 1px solid #ddd; border-radius: 15px; padding: 30px; text-align: center; height: 100%; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.feature-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+.feature-card .icon-circle { width: 70px; height: 70px; border-radius: 50%; background-color: #e3f2fd; color: var(--primary-blue); display: inline-flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 20px; }
+.mission-card { background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 100%; }
+.mission-card h4 { color: var(--primary-blue); font-weight: 600; }
+.mission-card ul { list-style: none; padding-left: 0; }
+.mission-card ul li::before { content: '✓'; color: var(--light-blue-accent); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+
+/* --- Página de Servicios --- */
+.service-item-card { border: 1px solid #ddd; border-radius: 15px; padding: 30px; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.service-item-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+.service-item-card i { font-size: 3rem; color: var(--light-blue-accent); margin-bottom: 15px; }
+
+/* --- Footer Nuevo --- */
+.new-footer { background-color: var(--primary-blue); color: var(--text-light); padding: 40px 0 20px 0; }
+.new-footer .footer-brand { font-size: 1.5rem; font-weight: bold; }
+.new-footer .footer-brand img { height: 40px; margin-right: 10px; }
+.new-footer h5 { font-weight: 600; margin-bottom: 15px; }
+.new-footer a { color: rgba(255, 255, 255, 0.8); text-decoration: none; }
+.new-footer a:hover { color: white; text-decoration: underline; }
+.footer-divider { border-top: 1px solid rgba(255, 255, 255, 0.2); margin: 20px 0; }
+
+/* --- Estilos para Páginas de Identity (Login/Register) --- */
+.login-container {
+    background-color: var(--light-gray-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 2rem 0;
 }
 
-.section-title {
+.login-card {
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 450px;
     text-align: center;
-    margin-bottom: 50px;
 }
 
-.section-title h2 {
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: var(--primary-blue);
-}
-
-.feature-card {
-    border: 1px solid #ddd;
-    border-radius: 15px;
-    padding: 30px;
-    text-align: center;
-    height: 100%;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.feature-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-.feature-card .icon-circle {
-    width: 70px;
-    height: 70px;
+.login-icon {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    background-color: #e3f2fd;
-    color: var(--primary-blue);
+    background-color: var(--primary-blue);
+    color: white;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
-    margin-bottom: 20px;
+    font-size: 2.5rem;
+    margin: 0 auto 1.5rem auto;
 }
 
-.mission-card {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    height: 100%;
-}
-
-.mission-card h4 {
-    color: var(--primary-blue);
+.login-card h2 {
     font-weight: 600;
+    margin-bottom: 0.5rem;
 }
 
-.mission-card ul {
-    list-style: none;
-    padding-left: 0;
+.login-card .form-floating {
+    text-align: left;
 }
 
-.mission-card ul li::before {
-    content: '✓'; /* Icono de check */
-    color: var(--light-blue-accent);
-    font-weight: bold;
-    display: inline-block;
-    width: 1em;
-    margin-left: -1em;
+.login-card .form-control {
+    border-radius: 0.5rem;
+    padding: 1rem;
+    height: auto;
 }
 
-/* --- Página de Servicios --- */
-.service-item-card {
-    border: 1px solid #ddd;
-    border-radius: 15px; /* Borde ovalado/redondeado */
-    padding: 30px;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.service-item-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-}
-.service-item-card i {
-    font-size: 3rem;
-    color: var(--light-blue-accent);
-    margin-bottom: 15px;
-}
-
-
-/* --- Footer Nuevo --- */
-.new-footer {
+.btn-primary-solid {
     background-color: var(--primary-blue);
-    color: var(--text-light);
-    padding: 40px 0 20px 0;
-}
-
-.new-footer .footer-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.new-footer .footer-brand img {
-    height: 40px;
-    margin-right: 10px;
-}
-
-.new-footer h5 {
-    font-weight: 600;
-    margin-bottom: 15px;
-}
-
-.new-footer a {
-    color: rgba(255, 255, 255, 0.8);
-    text-decoration: none;
-}
-
-.new-footer a:hover {
+    border-color: var(--primary-blue);
     color: white;
-    text-decoration: underline;
+    padding: 0.75rem;
+    width: 100%;
+    font-weight: bold;
+    border-radius: 0.5rem;
 }
 
-.footer-divider {
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    margin: 20px 0;
+.btn-primary-solid:hover {
+    background-color: #1c3178;
+    border-color: #1c3178;
+    color: white;
 }
