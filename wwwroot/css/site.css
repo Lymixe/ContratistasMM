@@ -322,3 +322,30 @@ body {
     transform: translateY(-10px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
+
+
+
+/* --- Estilos para el Panel de Administración --- */
+/* --- Estilos para el Panel de Administración (Versión Actualizada) --- */
+.admin-panel-header {
+    background-color: transparent;
+    margin-bottom: 2rem; 
+    border-bottom: 3px solid var(--primary-blue);
+    padding-bottom: 1.5rem;
+}
+
+.admin-panel-header h1 {
+    color: var(--text-dark);
+}
+.stat-card { display: flex; align-items: center; background: #fff; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.stat-icon { font-size: 1.5rem; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem; }
+.stat-icon.icon-active { background-color: #e3f2fd; color: #3B82F6; }
+.stat-icon.icon-completed { background-color: #e8f5e9; color: #4caf50; }
+.stat-info { display: flex; flex-direction: column; }
+.stat-number { font-size: 2rem; font-weight: 600; }
+.stat-label { font-size: 0.9rem; color: #6c757d; }
+.action-panel { background: #fff; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.action-card { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; border: 1px solid #ddd; border-radius: 10px; text-decoration: none; color: #333; transition: all 0.3s ease; }
+.action-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+.action-card i { font-size: 2rem; margin-bottom: 0.5rem; }
+.action-card.primary { background-color: var(--primary-blue); color: white; border: none; }
