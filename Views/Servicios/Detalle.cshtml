@@ -25,6 +25,7 @@
                 <button type="button" class="btn btn-custom-primary" data-bs-toggle="modal" data-bs-target="#contactoModalServicio">
                     Solicitar Información sobre este Servicio
                 </button>
+                <a asp-controller="Servicios" asp-action="Index" class="btn btn-secondary">Volver a Servicios</a>
             </div>
         </div>
     </div>
@@ -39,13 +40,22 @@
                 @foreach (var proyecto in Model.Proyectos.Where(p => p.EsPublico))
                 {
                     <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
-                        <div class="project-card w-100">
-                            <img src="@proyecto.ImagenUrl" class="card-img-top" alt="Imagen de @proyecto.Nombre">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">@proyecto.Nombre</h5>
-                                <p class="card-text"><strong>Año:</strong> @proyecto.AnioEjecucion</p>
-                                <a asp-controller="Proyectos" asp-action="Detalle" asp-route-id="@proyecto.Id" class="btn btn-primary-solid stretched-link mt-auto">Ver Proyecto</a>
-                            </div>
+                        <div class="project-card-wrapper w-100">
+                            <a asp-controller="Proyectos" 
+                               asp-action="Detalle" 
+                               asp-route-id="@proyecto.Id" 
+                               asp-route-origen="servicio" 
+                               asp-route-servicioId="@Model.Id"
+                               class="project-card-link">
+                                <div class="project-card h-100">
+                                    <img src="@proyecto.ImagenUrl" class="card-img-top" alt="Imagen de @proyecto.Nombre">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@proyecto.Nombre</h5>
+                                        <p class="card-text"><strong>Año:</strong> @proyecto.AnioEjecucion</p>
+                                        <div class="btn btn-primary-solid mt-auto">Ver Proyecto</div>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 }
@@ -54,7 +64,7 @@
     }
 </div>
 
-<!-- MODAL DE CONTACTO (REUTILIZADO Y ADAPTADO) -->
+<!-- MODAL DE CONTACTO -->
 <div class="modal fade" id="contactoModalServicio" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -65,8 +75,8 @@
             <div class="modal-body text-center">
                 <p>Elige tu método de contacto preferido.</p>
                 @{
-                    var whatsappMessage = $"Buen día, necesito información sobre el servicio: {Model.Nombre}";
-                    var emailSubject = $"Solicitud de Información: {Model.Nombre}";
+                    var whatsappMessage = $"Buen día, solicito información sobre el servicio de {Model.Nombre}";
+                    var emailSubject = $"Solicitud de información sobre el servicio de {Model.Nombre}";
                 }
                 <a href="https://wa.me/51947258010?text=@Uri.EscapeDataString(whatsappMessage)" target="_blank" class="btn btn-lg btn-whatsapp w-100 mb-3"><i class="fab fa-whatsapp"></i> WhatsApp</a>
                 <a href="mailto:zapatacontratista@hotmail.com?subject=@Uri.EscapeDataString(emailSubject)" class="btn btn-lg btn-gmail w-100"><i class="far fa-envelope"></i> Email (Gmail)</a>

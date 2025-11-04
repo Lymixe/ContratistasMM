@@ -303,3 +303,22 @@ body {
 .related-projects-section {
     padding-top: 2rem;
 }
+
+
+/* --- Estilos para la tarjeta de proyecto enlazada --- */
+.project-card-link {
+    text-decoration: none;
+    color: inherit; 
+    display: block; 
+    height: 100%;
+}
+
+.project-card-link:hover {
+    color: inherit; 
+}
+
+/* Para que la tarjeta siga teniendo el efecto hover aunque el enlace la envuelva */
+.project-card-link:hover .project-card {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}

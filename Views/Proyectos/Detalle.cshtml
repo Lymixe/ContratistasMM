@@ -22,16 +22,24 @@
                 <li class="list-group-item ps-0"><strong>Año de Ejecución:</strong> @Model.AnioEjecucion</li>
                 <li class="list-group-item ps-0"><strong>Tipo de Obra:</strong> @Model.TipoObra</li>
             </ul>
-            <div class="mt-4">
-                <!--
-                    CAMBIO IMPORTANTE:
-                    Este botón ahora abre el modal usando data-bs-toggle y data-bs-target.
-                -->
-                <button type="button" class="btn btn-custom-primary" data-bs-toggle="modal" data-bs-target="#contactoModal">
-                    Solicitar Más Información
-                </button>
+            
+            
+            
+        <div class="mt-4">
+            <button type="button" class="btn btn-custom-primary" data-bs-toggle="modal" data-bs-target="#contactoModal">
+                Solicitar Más Información
+            </button>
+
+            @if (ViewBag.Origen == "servicio" && ViewBag.ServicioId != null)
+            {
+                <a asp-controller="Servicios" asp-action="Detalle" asp-route-id="@ViewBag.ServicioId" class="btn btn-secondary">Volver al Servicio</a>
+            }
+            else
+            {
                 <a asp-controller="Proyectos" asp-action="Index" class="btn btn-secondary">Volver al Catálogo</a>
-            </div>
+            }
+        </div>
+
         </div>
     </div>
 </div>
