@@ -16,5 +16,9 @@ namespace ContratistasMM.Areas.Admin.Models
         [Required(ErrorMessage = "Debe seleccionar un archivo.")]
         [Display(Name = "Archivo")]
         public IFormFile Archivo { get; set; }
+
+        [Display(Name = "Visible para el Cliente")]
+        public bool EsVisibleParaCliente { get; set; }
+
     }
 }

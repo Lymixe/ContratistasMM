@@ -361,3 +361,9 @@ body {
 .progress-section label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
 .progress { height: 1.25rem; }
 .progress-bar { background-color: var(--primary-blue); font-weight: bold; }
+
+
+.client-project-card { border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); overflow: hidden; height: 100%; }
+.client-project-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+.client-project-card .card-body { padding: 1.5rem; }
+.client-project-card .progress-percent { font-weight: bold; color: var(--primary-blue); }

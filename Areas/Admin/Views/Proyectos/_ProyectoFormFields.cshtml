@@ -5,46 +5,66 @@
         <div class="mb-3">
             <label asp-for="Nombre" class="form-label"></label>
             <input asp-for="Nombre" class="form-control" />
-            <span asp-validation-for="Nombre" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="Descripcion" class="form-label"></label>
             <textarea asp-for="Descripcion" class="form-control" rows="4"></textarea>
-            <span asp-validation-for="Descripcion" class="text-danger"></span>
         </div>
         <div class="row">
-            <div class="col-md-6 mb-3">
-                <label asp-for="Ubicacion" class="form-label"></label>
-                <input asp-for="Ubicacion" class="form-control" />
-            </div>
-            <div class="col-md-6 mb-3">
-                <label asp-for="TipoObra" class="form-label"></label>
-                <input asp-for="TipoObra" class="form-control" />
-            </div>
+            <div class="col-md-6 mb-3"><label asp-for="Ubicacion" class="form-label"></label><input asp-for="Ubicacion" class="form-control" /></div>
+            <div class="col-md-6 mb-3"><label asp-for="TipoObra" class="form-label"></label><input asp-for="TipoObra" class="form-control" /></div>
         </div>
-        <div class="col-md-6 mb-3">
-            <label asp-for="AnioEjecucion" class="form-label"></label>
-            <input asp-for="AnioEjecucion" type="number" class="form-control" />
+        <div class="row">
+            <div class="col-md-6 mb-3"><label asp-for="AnioEjecucion" class="form-label"></label><input asp-for="AnioEjecucion" type="number" class="form-control" /></div>
+            <div class="col-md-6 mb-3"><label asp-for="FechaInicio" class="form-label"></label><input asp-for="FechaInicio" type="date" class="form-control" /></div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="mb-3">
-            <label asp-for="SelectedClienteId" class="form-label"></label>
-            <select asp-for="SelectedClienteId" asp-items="Model.Clientes" class="form-select">
+            <label for="SelectedClienteId" class="form-label">Cliente Asignado</label>
+            <!-- 
+                SOLUCIÓN DEFINITIVA: 
+                Eliminamos CUALQUIER tag helper del <select>. Es HTML puro.
+                El atributo 'name' se encarga de enlazar el valor al controlador.
+            -->
+            <select name="SelectedClienteId" id="SelectedClienteId" class="form-select">
                 <option value="">-- Sin Cliente Asignado --</option>
+                @if (Model.Clientes != null)
+                {
+                    foreach (var cliente in Model.Clientes)
+                    {
+                        if (cliente.Value == Model.SelectedClienteId)
+                        {
+                            <option value="@cliente.Value" selected>@cliente.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@cliente.Value">@cliente.Text</option>
+                        }
+                    }
+                }
             </select>
         </div>
         <div class="mb-3">
             <label asp-for="Estado" class="form-label"></label>
             <select asp-for="Estado" class="form-select">
-                <option>En Progreso</option>
-                <option>Finalizado</option>
+                <option value="En Progreso">En Progreso</option>
+                <option value="Finalizado">Finalizado</option>
             </select>
         </div>
         <div class="mb-3">
             <label asp-for="Progreso" class="form-label"></label>
             <input asp-for="Progreso" type="range" class="form-range" min="0" max="100" />
-            <span asp-validation-for="Progreso" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ImagenPrincipal" class="form-label"></label>
+            @if (!string.IsNullOrEmpty(Model.ExistingImageUrl))
+            {
+                <div class="mb-2">
+                    <img src="@Url.Content(Model.ExistingImageUrl)" alt="Imagen actual" class="img-thumbnail" width="150" />
+                </div>
+            }
+            <input asp-for="ImagenPrincipal" type="file" class="form-control" accept="image/*" />
         </div>
         <div class="form-check mb-3">
             <input asp-for="EsPublico" type="checkbox" class="form-check-input" />

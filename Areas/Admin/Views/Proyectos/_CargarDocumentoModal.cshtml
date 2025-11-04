@@ -32,6 +32,12 @@
                         <input asp-for="Archivo" type="file" class="form-control" />
                         <span asp-validation-for="Archivo" class="text-danger"></span>
                     </div>
+
+                    <div class="form-check mb-3">
+                        <input asp-for="EsVisibleParaCliente" type="checkbox" class="form-check-input" />
+                        <label asp-for="EsVisibleParaCliente" class="form-check-label"></label>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

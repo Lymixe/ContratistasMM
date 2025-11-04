@@ -26,6 +26,8 @@ namespace ContratistasMM.Models
         public string Estado { get; set; } = "En Progreso";
 
         public int Progreso { get; set; } = 0;
+
+        public DateTime? FechaInicio { get; set; }
         
         // Relaciones
         public string? ClienteId { get; set; }

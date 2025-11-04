@@ -22,6 +22,14 @@ namespace ContratistasMM.Areas.Admin.Models
         [Display(Name = "Tipo de Obra")]
         public string? TipoObra { get; set; }
 
+        [Display(Name = "Fecha de Inicio")]
+        [DataType(DataType.Date)]
+        public DateTime? FechaInicio { get; set; }
+
+        [Display(Name = "Imagen Principal del Proyecto")]
+        public IFormFile? ImagenPrincipal { get; set; }
+
+        public string? ExistingImageUrl { get; set; }
         public string Estado { get; set; }
 
         [Range(0, 100, ErrorMessage = "El progreso debe estar entre 0 y 100.")]

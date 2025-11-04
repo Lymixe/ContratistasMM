@@ -3,7 +3,7 @@
 <div class="modal fade" id="crearProyectoModal" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <form asp-action="Crear" method="post">
+            <form asp-action="Crear" method="post" enctype="multipart/form-data">
                 @Html.AntiForgeryToken()
                 <div class="modal-header">
                     <h5 class="modal-title">Nuevo Proyecto</h5>
