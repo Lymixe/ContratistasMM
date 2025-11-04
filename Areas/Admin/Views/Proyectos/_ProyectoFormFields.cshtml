@@ -1,0 +1,54 @@
+@model ProyectoViewModel
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="mb-3">
+            <label asp-for="Nombre" class="form-label"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Descripcion" class="form-label"></label>
+            <textarea asp-for="Descripcion" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="Descripcion" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Ubicacion" class="form-label"></label>
+                <input asp-for="Ubicacion" class="form-control" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="TipoObra" class="form-label"></label>
+                <input asp-for="TipoObra" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="AnioEjecucion" class="form-label"></label>
+            <input asp-for="AnioEjecucion" type="number" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="mb-3">
+            <label asp-for="SelectedClienteId" class="form-label"></label>
+            <select asp-for="SelectedClienteId" asp-items="Model.Clientes" class="form-select">
+                <option value="">-- Sin Cliente Asignado --</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Estado" class="form-label"></label>
+            <select asp-for="Estado" class="form-select">
+                <option>En Progreso</option>
+                <option>Finalizado</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Progreso" class="form-label"></label>
+            <input asp-for="Progreso" type="range" class="form-range" min="0" max="100" />
+            <span asp-validation-for="Progreso" class="text-danger"></span>
+        </div>
+        <div class="form-check mb-3">
+            <input asp-for="EsPublico" type="checkbox" class="form-check-input" />
+            <label asp-for="EsPublico" class="form-check-label"></label>
+        </div>
+    </div>
+</div>
