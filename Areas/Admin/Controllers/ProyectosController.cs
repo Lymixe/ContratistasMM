@@ -162,8 +162,11 @@ public class ProyectosController : Controller
             }
             var documento = new Documento
             {
-                Nombre = model.Nombre, Clasificacion = model.Clasificacion, UrlArchivo = uniqueFileName,
-                ProyectoId = model.ProyectoId, EsVisibleParaCliente = model.EsVisibleParaCliente
+                Nombre = model.Nombre,
+                Clasificacion = model.Clasificacion,
+                UrlArchivo = uniqueFileName,
+                ProyectoId = model.ProyectoId,
+                EsVisibleParaCliente = model.EsVisibleParaCliente
             };
             _context.Add(documento);
             await _context.SaveChangesAsync();
@@ -173,4 +176,31 @@ public class ProyectosController : Controller
         TempData["ErrorMessage"] = "Hubo un error al cargar el documento.";
         return RedirectToAction(nameof(Index));
     }
+    
+    public async Task<IActionResult> Detalle(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var proyecto = await _context.Proyectos
+            .Include(p => p.Hitos)        // Carga los hitos relacionados
+                .ThenInclude(h => h.ArchivosHito) // Carga los archivos de cada hito
+            .Include(p => p.Documentos)   // Carga los documentos relacionados
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (proyecto == null)
+        {
+            return NotFound();
+        }
+
+        var viewModel = new DetalleProyectoViewModel
+        {
+            Proyecto = proyecto
+        };
+
+        return View(viewModel);
+    }
+
 }
