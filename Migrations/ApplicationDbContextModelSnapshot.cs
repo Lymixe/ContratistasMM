@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ContratistasMM.Data.Migrations
+namespace ContratistasMM.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -21,6 +21,32 @@ namespace ContratistasMM.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ContratistasMM.Models.ArchivoHito", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("HitoId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UrlArchivo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HitoId");
+
+                    b.ToTable("ArchivosHito");
+                });
 
             modelBuilder.Entity("ContratistasMM.Models.CategoriaReferencia", b =>
                 {
@@ -83,6 +109,9 @@ namespace ContratistasMM.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
+                    b.Property<bool>("EsVisibleParaCliente")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -114,8 +143,19 @@ namespace ContratistasMM.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("FechaEstimada")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTime?>("FechaFinalizacionReal")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("ProyectoId")
                         .HasColumnType("integer");
@@ -152,6 +192,9 @@ namespace ContratistasMM.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime?>("FechaInicio")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("ImagenUrl")
                         .HasColumnType("text");
 
@@ -159,6 +202,9 @@ namespace ContratistasMM.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
+
+                    b.Property<int>("Progreso")
+                        .HasColumnType("integer");
 
                     b.Property<string>("TipoObra")
                         .HasColumnType("text");
@@ -468,6 +514,17 @@ namespace ContratistasMM.Data.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
+            modelBuilder.Entity("ContratistasMM.Models.ArchivoHito", b =>
+                {
+                    b.HasOne("ContratistasMM.Models.Hito", "Hito")
+                        .WithMany("ArchivosHito")
+                        .HasForeignKey("HitoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hito");
+                });
+
             modelBuilder.Entity("ContratistasMM.Models.Comentario", b =>
                 {
                     b.HasOne("ContratistasMM.Models.ApplicationUser", "Autor")
@@ -602,6 +659,8 @@ namespace ContratistasMM.Data.Migrations
 
             modelBuilder.Entity("ContratistasMM.Models.Hito", b =>
                 {
+                    b.Navigation("ArchivosHito");
+
                     b.Navigation("Comentarios");
                 });
 

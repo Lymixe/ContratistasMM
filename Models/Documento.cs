@@ -21,6 +21,8 @@ namespace ContratistasMM.Models
         [StringLength(50)]
         public string Clasificacion { get; set; } // El tipo de documento, ej: "Recibo", "Permiso", "Plano"
 
+
+        public bool EsVisibleParaCliente { get; set; } = false;
         // Relaciones
         public int ProyectoId { get; set; }
         public Proyecto Proyecto { get; set; } = null!;

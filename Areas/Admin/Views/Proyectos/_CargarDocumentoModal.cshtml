@@ -1,0 +1,49 @@
+@model ContratistasMM.Areas.Admin.Models.CargarDocumentoViewModel
+
+<div class="modal fade" id="cargarDocumentoModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form asp-area="Admin" asp-controller="Proyectos" asp-action="CargarDocumento" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h5 class="modal-title">Cargar Documento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="ProyectoId" />
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Clasificacion" class="form-label"></label>
+                        <select asp-for="Clasificacion" class="form-select">
+                            <option value="">-- Seleccionar --</option>
+                            <option value="Recibo">Recibo</option>
+                            <option value="Permiso">Permiso</option>
+                            <option value="Plano">Plano</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                        <span asp-validation-for="Clasificacion" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Archivo" class="form-label"></label>
+                        <input asp-for="Archivo" type="file" class="form-control" />
+                        <span asp-validation-for="Archivo" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input asp-for="EsVisibleParaCliente" type="checkbox" class="form-check-input" />
+                        <label asp-for="EsVisibleParaCliente" class="form-check-label"></label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Documento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

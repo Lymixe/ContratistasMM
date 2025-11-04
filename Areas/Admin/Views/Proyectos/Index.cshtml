@@ -1,0 +1,131 @@
+@model IEnumerable<ContratistasMM.Models.Proyecto>
+
+@{
+    ViewData["Title"] = "Gestión de Proyectos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container content-section">
+    <div class="admin-panel-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1>@ViewData["Title"]</h1>
+                <p class="text-muted">Administra todos los proyectos de la empresa</p>
+            </div>
+            <!-- CAMBIO: El botón de crear ahora es un <button> con una clase JS -->
+            <button class="btn btn-light js-crear-btn">+ Nuevo Proyecto</button>
+        </div>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    @foreach (var proyecto in Model)
+    {
+        <div class="project-manage-card">
+            <div class="card-header">
+                <div>
+                    <h5 class="card-title mb-0">@proyecto.Nombre</h5>
+                    <small class="text-muted">Cliente: @(proyecto.Cliente != null ? $"{proyecto.Cliente.Nombre} {proyecto.Cliente.Apellido}" : "No asignado")</small>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="badge status-badge-@(proyecto.Estado.Replace(" ", ""))">@proyecto.Estado</span>
+                    <div class="ms-3">
+                        <button class="btn btn-sm btn-outline-secondary js-edit-btn" data-id="@proyecto.Id">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger js-delete-btn" data-bs-toggle="modal" data-bs-target="#eliminarModal" data-id="@proyecto.Id">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+             <div class="card-body">
+                <p>@proyecto.Descripcion</p>
+                <small class="text-muted"><i class="fas fa-map-marker-alt"></i> @proyecto.Ubicacion</small>
+                <div class="progress-section">
+                    <label>Progreso de Obra</label>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: @proyecto.Progreso%;" aria-valuenow="@proyecto.Progreso" aria-valuemin="0" aria-valuemax="100">@proyecto.Progreso%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-link js-cargar-documento-btn" data-proyecto-id="@proyecto.Id">
+                    <i class="fas fa-upload"></i> Cargar Documentos
+                </button>
+                <small class="text-muted ms-auto">ID: proj-@proyecto.Id.ToString("D3")</small>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Modal de Eliminación -->
+<div class="modal fade" id="eliminarModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="Eliminar" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" id="deleteProjectId" />
+                <div class="modal-header"><h5 class="modal-title">Confirmar Eliminación</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                <div class="modal-body"><p>¿Estás seguro de que quieres eliminar este proyecto? Esta acción no se puede deshacer.</p></div>
+                <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Eliminar</button></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Placeholder para Modales Dinámicos -->
+<div id="modal-placeholder"></div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            var placeholderElement = $('#modal-placeholder');
+
+            // --- INICIO: NUEVO SCRIPT PARA CREAR ---
+            $('.js-crear-btn').on('click', function () {
+                // Realiza una petición GET para obtener el formulario de creación
+                $.get('/Admin/Proyectos/Crear', function (data) {
+                    placeholderElement.html(data);
+                    placeholderElement.find('.modal').modal('show');
+                });
+            });
+            // --- FIN: NUEVO SCRIPT PARA CREAR ---
+
+            // Script para Carga de Documentos
+            $('.js-cargar-documento-btn').on('click', function () {
+                var proyectoId = $(this).data('proyecto-id');
+                $.get('/Admin/Proyectos/CargarDocumento?proyectoId=' + proyectoId, function (data) {
+                    placeholderElement.html(data);
+                    placeholderElement.find('.modal').modal('show');
+                });
+            });
+
+            // Script para Editar
+            $('.js-edit-btn').on('click', function () {
+                var proyectoId = $(this).data('id');
+                $.get('/Admin/Proyectos/Editar/' + proyectoId, function (data) {
+                    placeholderElement.html(data);
+                    placeholderElement.find('.modal').modal('show');
+                });
+            });
+
+            // Script para el Modal de Eliminación
+            $('.js-delete-btn').on('click', function() {
+                var id = $(this).data('id');
+                $('#deleteProjectId').val(id);
+            });
+            
+             $('body').on('hidden.bs.modal', '.modal', function () {
+                placeholderElement.empty();
+            });
+        });
+    </script>
+}

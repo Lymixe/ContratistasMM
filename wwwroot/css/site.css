@@ -349,3 +349,21 @@ body {
 .action-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
 .action-card i { font-size: 2rem; margin-bottom: 0.5rem; }
 .action-card.primary { background-color: var(--primary-blue); color: white; border: none; }
+
+
+/* --- Estilos para Gestión de Proyectos Admin --- */
+.project-manage-card { background-color: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 2rem; }
+.project-manage-card .card-header, .project-manage-card .card-footer { display: flex; justify-content: space-between; align-items: center; background-color: transparent; border-color: #eee; }
+.project-manage-card .card-body { padding: 1.5rem; }
+.status-badge-EnProgreso { background-color: #e3f2fd; color: #3B82F6; padding: 0.4em 0.8em; border-radius: 20px; font-weight: 600; }
+.status-badge-Finalizado { background-color: #e8f5e9; color: #4caf50; padding: 0.4em 0.8em; border-radius: 20px; font-weight: 600; }
+.progress-section { margin-top: 1rem; }
+.progress-section label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+.progress { height: 1.25rem; }
+.progress-bar { background-color: var(--primary-blue); font-weight: bold; }
+
+
+.client-project-card { border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); overflow: hidden; height: 100%; }
+.client-project-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+.client-project-card .card-body { padding: 1.5rem; }
+.client-project-card .progress-percent { font-weight: bold; color: var(--primary-blue); }
