@@ -279,3 +279,46 @@ body {
     margin-right: 8px;
     font-size: 1.2rem;
 }
+
+
+/* --- Estilos para la Página de Detalle de Servicio --- */
+.benefits-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.benefits-list li {
+    padding-left: 1.5em;
+    text-indent: -1.5em;
+    margin-bottom: 0.5rem;
+}
+
+.benefits-list li::before {
+    content: '✓'; /* Icono de check */
+    color: var(--light-blue-accent);
+    font-weight: bold;
+    margin-right: 0.5em;
+}
+
+.related-projects-section {
+    padding-top: 2rem;
+}
+
+
+/* --- Estilos para la tarjeta de proyecto enlazada --- */
+.project-card-link {
+    text-decoration: none;
+    color: inherit; 
+    display: block; 
+    height: 100%;
+}
+
+.project-card-link:hover {
+    color: inherit; 
+}
+
+/* Para que la tarjeta siga teniendo el efecto hover aunque el enlace la envuelva */
+.project-card-link:hover .project-card {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
