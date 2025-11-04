@@ -1,10 +1,14 @@
 using ContratistasMM.Models;
 using Microsoft.AspNetCore.Identity;
 
+
 namespace ContratistasMM.Data
 {
     public static class DataSeeder
     {
+        /// <summary>
+        /// Inicializa la base de datos con roles y usuarios por defecto si no existen.
+        /// </summary>
         public static async Task Initialize(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -14,79 +18,72 @@ namespace ContratistasMM.Data
             string[] roleNames = { "Admin", "Cliente" };
             foreach (var roleName in roleNames)
             {
-                // Verifica si el rol ya existe
-                var roleExist = await roleManager.RoleExistsAsync(roleName);
-                if (!roleExist)
+                if (!await roleManager.RoleExistsAsync(roleName))
                 {
-                    // Si no existe, lo crea
                     await roleManager.CreateAsync(new IdentityRole(roleName));
                 }
             }
 
             // --- 2. CREAR USUARIO ADMINISTRADOR ---
-            var adminEmail = "admin@constratistas.com";
-            var adminUser = await userManager.FindByEmailAsync(adminEmail);
-
-            if (adminUser == null)
+            var adminEmail = "admin@contratistas.com";
+            if (await userManager.FindByEmailAsync(adminEmail) == null)
             {
-                // Si el admin no existe, lo crea
-                var newAdminUser = new ApplicationUser
+                var adminUser = new ApplicationUser
                 {
                     UserName = adminEmail,
                     Email = adminEmail,
-                    EmailConfirmed = true // Lo confirmamos directamente
+                    Nombre = "Usuario",
+                    Apellido = "Administrador",
+                    EmailConfirmed = true
                 };
 
-                // ¡IMPORTANTE! Usa una contraseña segura en un proyecto real.
-                var result = await userManager.CreateAsync(newAdminUser, "Admin123!");
-
+                var result = await userManager.CreateAsync(adminUser, "Admin123!");
                 if (result.Succeeded)
                 {
-                    // Asigna el rol "Admin" al nuevo usuario
-                    await userManager.AddToRoleAsync(newAdminUser, "Admin");
+                    await userManager.AddToRoleAsync(adminUser, "Admin");
                 }
             }
 
             // --- 3. CREAR USUARIOS CLIENTE DE EJEMPLO ---
 
+            // Cliente 1: Juan Pérez
             var cliente1Email = "juan.perez@contratistas.com";
-            var cliente1User = await userManager.FindByEmailAsync(cliente1Email);
-                if (cliente1User == null)
-                {
-                    var newCliente1 = new ApplicationUser
-                    {
-                        UserName = cliente1Email,
-                        Email = cliente1Email,
-                        EmailConfirmed = true,
-                        // Aquí puedes añadir más datos si los agregas a ApplicationUser.cs
-                        // Por ejemplo: Nombre = "Juan", Apellido = "Pérez"
-                    };
-                    var result = await userManager.CreateAsync(newCliente1, "Cliente123!");
-                    if (result.Succeeded)
-                    {
-                        await userManager.AddToRoleAsync(newCliente1, "Cliente");
-                    }
-                }
-
-            // Cliente 2: Ana Gómez
-            var cliente2Email = "ana.gomez@contratistas.com";
-            var cliente2User = await userManager.FindByEmailAsync(cliente2Email);
-                        if (cliente2User == null)
+            if (await userManager.FindByEmailAsync(cliente1Email) == null)
             {
-                var newCliente2 = new ApplicationUser
+                var cliente1User = new ApplicationUser
                 {
-                    UserName = cliente2Email,
-                    Email = cliente2Email,
-                    EmailConfirmed = true,
-                    // Por ejemplo: Nombre = "Ana", Apellido = "Gómez"
+                    UserName = cliente1Email,
+                    Email = cliente1Email,
+                    Nombre = "Juan",
+                    Apellido = "Pérez",
+                    EmailConfirmed = true
                 };
-                var result = await userManager.CreateAsync(newCliente2, "Cliente123!");
+                var result = await userManager.CreateAsync(cliente1User, "Cliente123!");
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(newCliente2, "Cliente");
+                    await userManager.AddToRoleAsync(cliente1User, "Cliente");
                 }
             }
 
+            // Cliente 2: Ana Gómez
+            var cliente2Email = "ana.gomez@contratistas.com";
+            if (await userManager.FindByEmailAsync(cliente2Email) == null)
+            {
+                var cliente2User = new ApplicationUser
+                {
+                    UserName = cliente2Email,
+                    Email = cliente2Email,
+                    Nombre = "Ana",
+                    Apellido = "Gómez",
+                    EmailConfirmed = true
+                };
+                var result = await userManager.CreateAsync(cliente2User, "Cliente123!");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(cliente2User, "Cliente");
+                }
+            }
         }
     }
+
 }
