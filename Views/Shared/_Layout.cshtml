@@ -1,31 +1,27 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-g" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ContratistasMM</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - Contratistas M&M</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ContratistasMM.styles.css" asp-append-version="true" />
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-custom border-bottom box-shadow">
-            <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-custom border-bottom box-shadow">
+            <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <!-- Puedes poner tu logo aquí -->
-                    <i class="fas fa-hard-hat"></i> Contratistas M&M
+                    <img src="~/img/logo.png" alt="Logo Contratistas M&M" />
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse d-lg-inline-flex">
+                    <ul class="navbar-nav main-nav">
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
@@ -35,11 +31,10 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Proyectos">Proyectos</a>
                         </li>
-                         <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Soporte">Soporte</a>
                         </li>
-
-                        @if (User.Identity.IsAuthenticated)
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
                             if (User.IsInRole("Cliente"))
                             {
@@ -55,47 +50,51 @@
                             }
                         }
                     </ul>
-                    <partial name="_LoginPartial" />
+                    <div class="ms-auto">
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
     
     <div>
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="footer text-muted bg-custom-dark">
-        <div class="container text-white py-4">
+    <footer class="new-footer">
+        <div class="container">
             <div class="row">
-                <div class="col-md-4 mb-3">
-                    <h5><i class="fas fa-hard-hat"></i> Contratistas M&M</h5>
-                    <p>Construyendo el futuro, ladrillo a ladrillo.</p>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <a class="footer-brand d-flex align-items-center mb-2" asp-controller="Home" asp-action="Index">
+                        <img src="~/img/logo.png" alt="Logo Contratistas M&M" />
+                        <span>Contratistas M&M</span>
+                    </a>
+                    <p>Construyendo el futuro con excelencia y compromiso.</p>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-lg-4 col-md-6 mb-4">
                     <h5>Contacto</h5>
                     <ul class="list-unstyled">
-                        <li><i class="fas fa-map-marker-alt"></i> Dirección, Ciudad, País</li>
-                        <li><i class="fas fa-phone"></i> +51 912 345 678</li>
-                        <li><i class="fas fa-envelope"></i> contacto@contratistasmym.com</li>
+                        <li>Email: info@contratistasmm.com</li>
+                        <li>Tel: +51 912 345 678</li>
                     </ul>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <h5>Navegación</h5>
-                    <ul class="list-unstyled">
-                        <li><a class="footer-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
-                        <li><a class="footer-link" asp-controller="Home" asp-action="Servicios">Servicios</a></li>
-                        <li><a class="footer-link" asp-controller="Home" asp-action="Proyectos">Proyectos</a></li>
-                        <li><a class="footer-link" asp-controller="Home" asp-action="Soporte">Soporte</a></li>
-                    </ul>
+                <div class="col-lg-4 col-md-12 mb-4">
+                    <h5>Síguenos</h5>
+                    <a href="#" class="me-3"><i class="fab fa-facebook fa-2x"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-instagram fa-2x"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-linkedin fa-2x"></i></a>
                 </div>
             </div>
-             <hr />
-            &copy; 2025 - Contratistas M&M - Todos los derechos reservados.
+            <div class="footer-divider"></div>
+            <div class="text-center">
+                <p>&copy; @DateTime.Now.Year Contratistas M&M. Todos los derechos reservados.</p>
+            </div>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
