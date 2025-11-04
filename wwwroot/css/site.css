@@ -193,3 +193,89 @@ body {
     border-color: #1c3178;
     color: white;
 }
+
+
+/* --- Estilos para la Galería de Proyectos --- */
+.project-card {
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    overflow: hidden; /* Asegura que la imagen no se salga de los bordes redondeados */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.project-card .card-img-top {
+    aspect-ratio: 3 / 2; /* Proporción de la imagen */
+    object-fit: cover;
+}
+
+.project-card .card-body {
+    padding: 1.5rem;
+}
+
+.project-card .card-title {
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+
+/* --- Estilos para el Formulario de Búsqueda --- */
+.search-form .form-control {
+    border-radius: 0.5rem 0 0 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-right: none;
+}
+
+.search-form .form-control:focus {
+    box-shadow: none;
+    border-color: var(--primary-blue);
+}
+
+.search-form .btn {
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+
+/* --- Estilos para el Modal de Contacto --- */
+.modal-header {
+    background-color: var(--primary-blue);
+    color: white;
+}
+
+/* Para que la 'X' de cerrar sea blanca */
+.modal-header .btn-close {
+    filter: invert(1) grayscale(100) brightness(2);
+}
+
+.btn-whatsapp {
+    background-color: #25D366; /* Color oficial de WhatsApp */
+    color: white;
+    font-weight: bold;
+}
+
+.btn-whatsapp:hover {
+    background-color: #128C7E;
+    color: white;
+}
+
+.btn-gmail {
+    background-color: #D44638; /* Color representativo de Gmail/Google */
+    color: white;
+    font-weight: bold;
+}
+
+.btn-gmail:hover {
+    background-color: #B23121;
+    color: white;
+}
+
+/* Estilo para los iconos dentro de los botones */
+.modal-body .btn i {
+    margin-right: 8px;
+    font-size: 1.2rem;
+}
