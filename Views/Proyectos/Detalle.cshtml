@@ -6,12 +6,12 @@
 
 <div class="container content-section">
     <div class="row">
-        <!-- Columna de la Imagen (Evidencia visual) -->
+        <!-- Columna de la Imagen -->
         <div class="col-md-6 mb-4">
             <img src="@Model.ImagenUrl" class="img-fluid rounded shadow" alt="Imagen principal de @Model.Nombre">
         </div>
 
-        <!-- Columna de la Información Detallada -->
+        <!-- Columna de la Información -->
         <div class="col-md-6">
             <h1>@Model.Nombre</h1>
             <p class="lead">@Model.Descripcion</p>
@@ -23,9 +23,45 @@
                 <li class="list-group-item ps-0"><strong>Tipo de Obra:</strong> @Model.TipoObra</li>
             </ul>
             <div class="mt-4">
-                <!-- Botón de contacto -->
-                <a href="#" class="btn btn-custom-primary">Solicitar Más Información</a>
+                <!--
+                    CAMBIO IMPORTANTE:
+                    Este botón ahora abre el modal usando data-bs-toggle y data-bs-target.
+                -->
+                <button type="button" class="btn btn-custom-primary" data-bs-toggle="modal" data-bs-target="#contactoModal">
+                    Solicitar Más Información
+                </button>
                 <a asp-controller="Proyectos" asp-action="Index" class="btn btn-secondary">Volver al Catálogo</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="contactoModal" tabindex="-1" aria-labelledby="contactoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contactoModalLabel">Contactar por el Proyecto: @Model.Nombre</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p>Elige tu método de contacto preferido.</p>
+                
+                @{
+                    // Preparamos los mensajes para que los enlaces funcionen correctamente
+                    var whatsappMessage = $"Buen día, necesito información sobre el proyecto: {Model.Nombre}";
+                    var emailSubject = $"Solicitud de Información: {Model.Nombre}";
+                }
+
+                <!-- Botón de WhatsApp -->
+                <a href="https://wa.me/51947258010?text=@Uri.EscapeDataString(whatsappMessage)" target="_blank" class="btn btn-lg btn-whatsapp w-100 mb-3">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+
+                <!-- Botón de Gmail -->
+                <a href="mailto:zapatacontratista@hotmail.com?subject=@Uri.EscapeDataString(emailSubject)" class="btn btn-lg btn-gmail w-100">
+                    <i class="far fa-envelope"></i> Email (Gmail)
+                </a>
             </div>
         </div>
     </div>
