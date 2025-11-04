@@ -18,6 +18,22 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        // Ejecuta nuestro método de inicialización
+        await DataSeeder.Initialize(services);
+    }
+    catch (Exception ex)
+    {
+        // Si algo sale mal, lo registra en la consola
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Ocurrió un error durante la siembra de datos.");
+    }
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
