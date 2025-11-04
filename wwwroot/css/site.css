@@ -29,3 +29,110 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+
+/* Colores personalizados */
+:root {
+    --primary-blue: #0A2B4C;
+    --light-blue: #007bff;
+    --dark-footer-bg: #0A2B4C; /* Mismo color que el navbar */
+}
+
+/* Navbar Personalizado */
+.bg-custom {
+    background-color: var(--primary-blue) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #ffffff;
+}
+
+/* Botón Personalizado */
+.btn-custom {
+    background-color: var(--light-blue);
+    border-color: var(--light-blue);
+    color: white;
+    padding: 10px 25px;
+    font-weight: bold;
+}
+
+.btn-custom:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    color: white;
+}
+
+/* Footer Personalizado */
+.footer {
+  border-top: none;
+}
+
+.bg-custom-dark {
+    background-color: var(--dark-footer-bg);
+}
+
+.footer-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* Estilos para el Hero de la página de inicio */
+.hero-section {
+    position: relative;
+    height: 60vh;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../img/hero-bg.png'); /* Asegúrate de tener esta imagen */
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.5); /* Oscurece la imagen para que el texto resalte */
+    z-index: -1;
+}
+
+.hero-section h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+}
+
+/* Sección de Servicios */
+.services-section {
+    padding: 60px 0;
+}
+
+.service-item {
+    text-align: center;
+    padding: 20px;
+}
+
+.service-item i {
+    font-size: 3rem;
+    color: var(--light-blue);
+    margin-bottom: 15px;
+}
+
+/* Otras secciones */
+.section-bg-light {
+    background-color: #f8f9fa;
+    padding: 60px 0;
+}
