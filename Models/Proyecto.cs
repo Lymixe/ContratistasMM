@@ -23,6 +23,8 @@ namespace ContratistasMM.Models
         public string? ImagenUrl { get; set; } // Imagen principal
         public bool EsPublico { get; set; } = false; // Para HU-05, controlar si es visible en el portafolio
 
+        public string Estado { get; set; } = "En Progreso";
+        
         // Relaciones
         public string? ClienteId { get; set; }
         public ApplicationUser? Cliente { get; set; }

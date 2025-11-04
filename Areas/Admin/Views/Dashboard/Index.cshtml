@@ -1,0 +1,45 @@
+@{
+    ViewData["Title"] = "Panel de Administración";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container content-section">
+    <div class="admin-panel-header">
+        <h1>@ViewData["Title"]</h1>
+        <p class="text-muted">Vista general de todos los proyectos y recursos</p>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon icon-active"><i class="fas fa-tasks"></i></div>
+                <div class="stat-info">
+                    <span class="stat-number">@ViewBag.ProyectosActivos</span>
+                    <span class="stat-label">Proyectos en Progreso</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon icon-completed"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-info">
+                    <span class="stat-number">@ViewBag.ProyectosFinalizados</span>
+                    <span class="stat-label">Proyectos Finalizados</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-panel">
+        <h4>Acciones Rápidas</h4>
+        <div class="row">
+            <div class="col-md-3">
+                <a asp-area="Admin" asp-controller="Proyectos" asp-action="Index" class="action-card primary">
+                    <i class="fas fa-folder-open"></i>
+                    <span>Gestionar Proyectos</span>
+                </a>
+            </div>
+            <!-- Otros botones que puedes implementar en el futuro -->
+        </div>
+    </div>
+</div>
