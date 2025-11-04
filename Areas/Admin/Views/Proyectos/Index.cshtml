@@ -1,0 +1,86 @@
+@model IEnumerable<ContratistasMM.Models.Proyecto>
+
+@{
+    ViewData["Title"] = "Gestión de Proyectos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- CORRECCIÓN 1: Contenedor centrado -->
+<div class="container content-section">
+    <div class="admin-panel-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1>@ViewData["Title"]</h1>
+                <p class="text-muted">Administra todos los proyectos de la empresa</p>
+            </div>
+            <a href="#" class="btn btn-light">+ Nuevo Proyecto</a>
+        </div>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @foreach (var proyecto in Model)
+    {
+        <div class="project-manage-card">
+            <div class="card-header">
+                <div>
+                    <h5 class="card-title mb-0">@proyecto.Nombre</h5>
+                    <small class="text-muted">Cliente: @(proyecto.Cliente?.Nombre ?? "No asignado") @proyecto.Cliente?.Apellido</small>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="badge status-badge-@(proyecto.Estado.Replace(" ", ""))">@proyecto.Estado</span>
+                    <div class="ms-3">
+                        <a href="#" class="btn btn-sm btn-outline-secondary"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p>@proyecto.Descripcion</p>
+                <small class="text-muted"><i class="fas fa-map-marker-alt"></i> @proyecto.Ubicacion</small>
+                <div class="progress-section">
+                    <label>Progreso de Obra</label>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: @proyecto.Progreso%;" aria-valuenow="@proyecto.Progreso" aria-valuemin="0" aria-valuemax="100">@proyecto.Progreso%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <!-- CORRECCIÓN 2: Botón modificado para el script -->
+                <button class="btn btn-link js-cargar-documento-btn" data-bs-toggle="modal" data-proyecto-id="@proyecto.Id">
+                    <i class="fas fa-upload"></i> Cargar Documentos
+                </button>
+                <small class="text-muted ms-auto">ID: proj-@proyecto.Id.ToString("D3")</small>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Placeholder para el Modal -->
+<div id="modal-placeholder"></div>
+
+@section Scripts {
+    <!-- CORRECCIÓN 3: Script actualizado -->
+    <script>
+        $(function () {
+            var placeholderElement = $('#modal-placeholder');
+
+            $('.js-cargar-documento-btn').on('click', function (event) {
+                var button = $(this);
+                var proyectoId = button.data('proyecto-id');
+
+                $.get('/Admin/Proyectos/CargarDocumento?proyectoId=' + proyectoId, function (data) {
+                    placeholderElement.html(data);
+                    placeholderElement.find('.modal').modal('show');
+                });
+            });
+
+            $('body').on('hidden.bs.modal', '.modal', function () {
+                placeholderElement.empty();
+            });
+        });
+    </script>
+}

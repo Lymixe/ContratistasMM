@@ -24,6 +24,8 @@ namespace ContratistasMM.Models
         public bool EsPublico { get; set; } = false; // Para HU-05, controlar si es visible en el portafolio
 
         public string Estado { get; set; } = "En Progreso";
+
+        public int Progreso { get; set; } = 0;
         
         // Relaciones
         public string? ClienteId { get; set; }
