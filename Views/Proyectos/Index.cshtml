@@ -1,0 +1,38 @@
+@model IEnumerable<ContratistasMM.Models.Proyecto>
+
+@{
+    ViewData["Title"] = "Proyectos Históricos";
+}
+
+<div class="container content-section">
+    <div class="section-title">
+        <h2>@ViewData["Title"]</h2>
+        <p>Conoce la calidad y experiencia que nos respalda a través de nuestras obras más destacadas.</p>
+    </div>
+
+    <div class="row">
+        @if (Model.Any())
+        {
+            @foreach (var proyecto in Model)
+            {
+                <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+                    <div class="project-card w-100">
+                        <img src="@proyecto.ImagenUrl" class="card-img-top" alt="Imagen de @proyecto.Nombre">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@proyecto.Nombre</h5>
+                            <p class="card-text"><strong>Tipo:</strong> @proyecto.TipoObra</p>
+                            <p class="card-text mb-4"><strong>Año:</strong> @proyecto.AnioEjecucion</p>
+                            <a asp-controller="Proyectos" asp-action="Detalle" asp-route-id="@proyecto.Id" class="btn btn-primary-solid stretched-link mt-auto">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <p class="text-center">Actualmente no hay proyectos históricos para mostrar.</p>
+            </div>
+        }
+    </div>
+</div>
