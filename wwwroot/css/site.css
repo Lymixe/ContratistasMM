@@ -222,3 +222,20 @@ body {
     color: var(--primary-blue);
     font-weight: 600;
 }
+
+
+/* --- Estilos para el Formulario de Búsqueda --- */
+.search-form .form-control {
+    border-radius: 0.5rem 0 0 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-right: none;
+}
+
+.search-form .form-control:focus {
+    box-shadow: none;
+    border-color: var(--primary-blue);
+}
+
+.search-form .btn {
+    border-radius: 0 0.5rem 0.5rem 0;
+}

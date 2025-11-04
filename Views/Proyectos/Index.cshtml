@@ -10,6 +10,20 @@
         <p>Conoce la calidad y experiencia que nos respalda a través de nuestras obras más destacadas.</p>
     </div>
 
+    <!-- INICIO: Formulario de Búsqueda -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8">
+            <form asp-controller="Proyectos" asp-action="Index" method="get" class="search-form">
+                <div class="input-group">
+                    <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre, tipo, ubicación..." value="@ViewData["BusquedaActual"]">
+                    <button class="btn btn-primary-solid" type="submit"><i class="fas fa-search"></i> Buscar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- FIN: Formulario de Búsqueda -->
+
+
     <div class="row">
         @if (Model.Any())
         {
@@ -22,7 +36,13 @@
                             <h5 class="card-title">@proyecto.Nombre</h5>
                             <p class="card-text"><strong>Tipo:</strong> @proyecto.TipoObra</p>
                             <p class="card-text mb-4"><strong>Año:</strong> @proyecto.AnioEjecucion</p>
-                            <a asp-controller="Proyectos" asp-action="Detalle" asp-route-id="@proyecto.Id" class="btn btn-primary-solid stretched-link mt-auto">Ver Detalles</a>
+                            <!--
+                                CORRECCIÓN DEL BUG:
+                                El 'asp-route-id' ahora está correctamente aislado dentro de la tarjeta.
+                                El uso de @proyecto.Id asegura que el ID de cada proyecto específico en el bucle
+                                se use para generar un enlace único.
+                            -->
+                            <a asp-controller="Proyectos" asp-action="Detalle" asp-route-id="@proyecto.Id" class="btn btn-primary-solid mt-auto">Ver Detalles</a>
                         </div>
                     </div>
                 </div>
@@ -30,8 +50,9 @@
         }
         else
         {
-            <div class="col-12">
-                <p class="text-center">Actualmente no hay proyectos históricos para mostrar.</p>
+            <div class="col-12 text-center">
+                <h4>No se encontraron proyectos</h4>
+                <p>Intenta con otro término de búsqueda o <a asp-controller="Proyectos" asp-action="Index">limpia la búsqueda</a>.</p>
             </div>
         }
     </div>
