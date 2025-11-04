@@ -193,3 +193,32 @@ body {
     border-color: #1c3178;
     color: white;
 }
+
+
+/* --- Estilos para la Galería de Proyectos --- */
+.project-card {
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    overflow: hidden; /* Asegura que la imagen no se salga de los bordes redondeados */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.project-card .card-img-top {
+    aspect-ratio: 3 / 2; /* Proporción de la imagen */
+    object-fit: cover;
+}
+
+.project-card .card-body {
+    padding: 1.5rem;
+}
+
+.project-card .card-title {
+    color: var(--primary-blue);
+    font-weight: 600;
+}
