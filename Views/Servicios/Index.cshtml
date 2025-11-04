@@ -1,0 +1,28 @@
+@model IEnumerable<ContratistasMM.Models.Servicio>
+
+@{
+    ViewData["Title"] = "Nuestros Servicios";
+}
+
+<div class="container content-section">
+    <div class="section-title">
+        <h2>@ViewData["Title"]</h2>
+        <p>Ofrecemos una gama completa de soluciones de construcción adaptadas a las necesidades de cada cliente.</p>
+    </div>
+
+    <div class="row">
+        @foreach (var servicio in Model)
+        {
+            <div class="col-md-4 mb-4 d-flex align-items-stretch">
+                <div class="service-item-card w-100">
+                    <div class="card-body d-flex flex-column">
+                        <i class="fas fa-tools"></i> <!-- Puedes cambiar el ícono si quieres -->
+                        <h4 class="card-title mt-3">@servicio.Nombre</h4>
+                        <p class="card-text">@servicio.Caracteristicas</p>
+                        <a asp-controller="Servicios" asp-action="Detalle" asp-route-id="@servicio.Id" class="btn btn-primary-solid stretched-link mt-auto">Ver Más</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
