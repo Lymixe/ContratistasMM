@@ -32,7 +32,7 @@
                             <div class="progress mt-3 mb-3">
                                 <div class="progress-bar" style="width: @proyecto.Progreso%;"></div>
                             </div>
-                            <a href="#" class="btn btn-primary-solid w-100 mt-auto">Ver Detalles</a>
+                            <a asp-controller="Cliente" asp-action="DetalleProyecto" asp-route-id="@proyecto.Id" class="btn btn-primary-solid w-100 mt-auto">Ver Detalles</a>
                         </div>
                     </div>
                 </div>

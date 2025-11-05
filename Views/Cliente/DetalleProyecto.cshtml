@@ -1,0 +1,98 @@
+@using ContratistasMM.Areas.Admin.Models
+@model DetalleProyectoViewModel
+
+@{
+    ViewData["Title"] = Model.Proyecto.Nombre;
+}
+
+<div class="container content-section">
+    <!-- SECCIÓN DE ENCABEZADO DEL PROYECTO -->
+    <div class="project-detail-header-card">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="@(Url.Content(Model.Proyecto.ImagenUrl ?? "~/img/placeholder.png"))" class="img-fluid rounded-start" alt="Imagen de @Model.Proyecto.Nombre">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h3 class="card-title">@Model.Proyecto.Nombre</h3>
+                        <span class="badge status-badge-@(Model.Proyecto.Estado.Replace(" ", ""))">@Model.Proyecto.Estado</span>
+                    </div>
+                    <p class="card-text">@Model.Proyecto.Descripcion</p>
+                    <div class="row project-stats">
+                        <div class="col-6"><i class="far fa-calendar-alt"></i> <strong>Fecha de Inicio:</strong> @Model.Proyecto.FechaInicio?.ToString("d/M/yyyy")</div>
+                        <div class="col-6"><i class="fas fa-chart-line"></i> <strong>Progreso General:</strong> @Model.Proyecto.Progreso%</div>
+                    </div>
+                    <div class="progress mt-3" style="height: 20px;">
+                        <div class="progress-bar" role="progressbar" style="width: @Model.Proyecto.Progreso%;" aria-valuenow="@Model.Proyecto.Progreso" aria-valuemin="0" aria-valuemax="100">@Model.Proyecto.Progreso%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PESTAÑAS DE NAVEGACIÓN -->
+    <ul class="nav nav-pills nav-fill mb-4" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-seguimiento-tab" data-bs-toggle="pill" data-bs-target="#pills-seguimiento" type="button" role="tab">Seguimiento de Obra</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-documentos-tab" data-bs-toggle="pill" data-bs-target="#pills-documentos" type="button" role="tab">Documentos</button>
+        </li>
+    </ul>
+
+    <!-- CONTENIDO DE LAS PESTAÑAS -->
+    <div class="tab-content" id="pills-tabContent">
+        <!-- PESTAÑA: SEGUIMIENTO DE OBRA -->
+        <div class="tab-pane fade show active" id="pills-seguimiento" role="tabpanel">
+            <h4 class="mb-3">Hitos del Proyecto</h4>
+            @if (Model.Proyecto.Hitos.Any())
+            {
+                @foreach (var hito in Model.Proyecto.Hitos)
+                {
+                    <div class="hito-card">
+                        <div class="hito-icon @hito.Estado.ToLower().Replace(" ", "")">
+                            @if(hito.Estado == "Completado") { <i class="fas fa-check-circle"></i> }
+                            else if(hito.Estado == "En Progreso") { <i class="fas fa-hourglass-half"></i> }
+                            else { <i class="far fa-clock"></i> }
+                        </div>
+                        <div class="hito-content">
+                            <div class="d-flex justify-content-between">
+                                <h5>@hito.Nombre</h5>
+                                <span class="badge status-badge-@(hito.Estado.Replace(" ", ""))">@hito.Estado</span>
+                            </div>
+                            <p>@hito.Descripcion</p>
+                            <small class="text-muted"><i class="far fa-calendar-alt"></i> Fecha estimada: @hito.FechaEstimada?.ToString("d/M/yyyy")</small>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>Aún no se han registrado hitos para este proyecto.</p>
+            }
+        </div>
+
+        <!-- PESTAÑA: DOCUMENTOS -->
+        <div class="tab-pane fade" id="pills-documentos" role="tabpanel">
+            <h4>Documentos del Proyecto</h4>
+            @if (Model.Proyecto.Documentos.Any())
+            {
+                <ul class="list-group document-list-admin">
+                    @foreach (var doc in Model.Proyecto.Documentos)
+                    {
+                        <li class="list-group-item">
+                            <i class="far fa-file-alt"></i>
+                            <a href="~/documentos/@doc.UrlArchivo" target="_blank">@doc.Nombre</a>
+                            <small class="text-muted">(@doc.Clasificacion)</small>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No hay documentos disponibles para este proyecto.</p>
+            }
+        </div>
+    </div>
+</div>
