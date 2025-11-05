@@ -46,7 +46,7 @@
         <div class="tab-pane fade show active" id="pills-seguimiento" role="tabpanel">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4>Hitos del Proyecto</h4>
-                <button class="btn btn-primary">+ Agregar Hito</button>
+                <button class="btn btn-primary js-crear-hito-btn" data-proyecto-id="@Model.Proyecto.Id">+ Agregar Hito</button>
             </div>
             @foreach (var hito in Model.Proyecto.Hitos.OrderBy(h => h.FechaEstimada))
             {
@@ -90,3 +90,47 @@
         </div>
     </div>
 </div>  
+
+<div id="modal-placeholder"></div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            var placeholderElement = $('#modal-placeholder');
+            
+            // Script para abrir el modal de CREAR HITO
+            $('.js-crear-hito-btn').on('click', function () {
+                var proyectoId = $(this).data('proyecto-id');
+                $.get('/Admin/Proyectos/CrearHito?proyectoId=' + proyectoId, function (data) {
+                    placeholderElement.html(data);
+                    placeholderElement.find('.modal').modal('show');
+                });
+            });
+            
+            // Limpia el placeholder cuando CUALQUIER modal se oculta
+            $('body').on('hidden.bs.modal', '.modal', function () {
+                placeholderElement.empty();
+            });
+        });
+        $('.document-list-admin .form-check-input').on('change', function () {
+            var switchElement = $(this);
+            var docId = switchElement.attr('id').replace('switch-', '');
+            var isVisible = switchElement.is(':checked');
+            
+            // Petición POST para actualizar la visibilidad en la BD
+            $.post('/Admin/Proyectos/CambiarVisibilidadDocumento', 
+            { 
+                id: docId, 
+                esVisible: isVisible 
+            })
+            .done(function(response) {
+                console.log(response.message); // Opcional: mostrar un mensaje de éxito
+            })
+            .fail(function() {
+                alert('Hubo un error al actualizar la visibilidad.');
+                // Revertir el switch si la llamada falla
+                switchElement.prop('checked', !isVisible);
+            });
+        });
+    </script>
+}

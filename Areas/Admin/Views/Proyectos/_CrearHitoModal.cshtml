@@ -1,0 +1,48 @@
+@model HitoViewModel
+
+<div class="modal fade" id="crearHitoModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form asp-action="CrearHito" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="ProyectoId" />
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar Nuevo Hito</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Descripcion" class="form-label"></label>
+                        <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="FechaEstimada" class="form-label"></label>
+                            <input asp-for="FechaEstimada" class="form-control" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Estado" class="form-label"></label>
+                            <select asp-for="Estado" class="form-select">
+                                <option>Pendiente</option>
+                                <option>En Progreso</option>
+                                <option>Completado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Archivos" class="form-label">Imágenes o Videos</label>
+                        <input asp-for="Archivos" type="file" class="form-control" multiple accept="image/*,video/*" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Hito</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

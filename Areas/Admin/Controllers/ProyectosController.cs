@@ -176,7 +176,7 @@ public class ProyectosController : Controller
         TempData["ErrorMessage"] = "Hubo un error al cargar el documento.";
         return RedirectToAction(nameof(Index));
     }
-    
+
     public async Task<IActionResult> Detalle(int? id)
     {
         if (id == null)
@@ -201,6 +201,84 @@ public class ProyectosController : Controller
         };
 
         return View(viewModel);
+    }
+    
+    [HttpGet]
+    public IActionResult CrearHito(int proyectoId)
+    {
+        var viewModel = new HitoViewModel
+        {
+            ProyectoId = proyectoId
+        };
+        return PartialView("_CrearHitoModal", viewModel);
+    }
+
+    // POST: /Admin/Proyectos/CrearHito
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CrearHito(HitoViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            var hito = new Hito
+            {
+                ProyectoId = model.ProyectoId,
+                Nombre = model.Nombre,
+                Descripcion = model.Descripcion,
+                FechaEstimada = model.FechaEstimada.HasValue
+                    ? DateTime.SpecifyKind(model.FechaEstimada.Value, DateTimeKind.Utc)
+                    : null,
+                Estado = model.Estado
+            };
+
+            // Procesar y guardar múltiples archivos
+            if (model.Archivos != null && model.Archivos.Any())
+            {
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "img/hitos");
+                if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+
+                foreach (var archivo in model.Archivos)
+                {
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(archivo.FileName);
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await archivo.CopyToAsync(fileStream);
+                    }
+
+                    var archivoHito = new ArchivoHito
+                    {
+                        UrlArchivo = $"/img/hitos/{uniqueFileName}",
+                        Tipo = archivo.ContentType.StartsWith("image") ? "Imagen" : "Video"
+                    };
+                    hito.ArchivosHito.Add(archivoHito);
+                }
+            }
+
+            _context.Hitos.Add(hito);
+            await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Hito agregado exitosamente.";
+        }
+        else
+        {
+            TempData["ErrorMessage"] = "Hubo un error al crear el hito. Revisa los datos.";
+        }
+
+        return RedirectToAction("Detalle", new { id = model.ProyectoId });
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> CambiarVisibilidadDocumento(int id, bool esVisible)
+    {
+        var documento = await _context.Documentos.FindAsync(id);
+        if (documento == null)
+        {
+            return NotFound();
+        }
+        documento.EsVisibleParaCliente = esVisible;
+        _context.Update(documento);
+        await _context.SaveChangesAsync();
+        return Ok(new { message = "Visibilidad actualizada." }); // Devuelve una respuesta exitosa
     }
 
 }
