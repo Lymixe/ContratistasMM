@@ -27,5 +27,6 @@ namespace ContratistasMM.Models
 
         // Relación con Comentario (Un hito puede tener muchos comentarios)
         public ICollection<Comentario> Comentarios { get; set; } = new List<Comentario>();
+        public ICollection<Personal> PersonalAsignado { get; set; } = new List<Personal>();
     }
 }

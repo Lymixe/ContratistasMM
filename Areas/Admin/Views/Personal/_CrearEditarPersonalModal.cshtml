@@ -1,0 +1,51 @@
+@model Personal
+
+@{
+    bool isCreate = Model.Id == 0;
+    var formAction = isCreate ? "Crear" : "Editar";
+}
+
+<div class="modal fade" id="personalModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form asp-action="@formAction" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h5 class="modal-title">@(isCreate ? "Nuevo Miembro del Personal" : "Editar Miembro del Personal")</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="FotoUrl" />
+                    <div class="mb-3">
+                        <label asp-for="NombreCompleto" class="form-label"></label>
+                        <input asp-for="NombreCompleto" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Cargo" class="form-label"></label>
+                        <input asp-for="Cargo" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Estado" class="form-label"></label>
+                        <select asp-for="Estado" class="form-select">
+                            <option>Activo</option>
+                            <option>Inactivo</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="foto" class="form-label">Foto</label>
+                        @if (!string.IsNullOrEmpty(Model.FotoUrl))
+                        {
+                            <img src="@Model.FotoUrl" class="avatar-sm d-block mb-2" />
+                        }
+                        <input name="foto" type="file" class="form-control" accept="image/*" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">@(isCreate ? "Guardar" : "Actualizar")</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -32,6 +32,20 @@
                                 <option>Completado</option>
                             </select>
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label">Asignar Personal</label>
+                            <div class="personal-checkbox-list">
+                                @foreach (var persona in Model.PersonalDisponible)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="PersonalIds" value="@persona.Id" id="persona-@persona.Id">
+                                        <label class="form-check-label" for="persona-@persona.Id">
+                                            @persona.NombreCompleto <small class="text-muted">(@persona.Cargo)</small>
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Archivos" class="form-label">Imágenes o Videos</label>

@@ -21,5 +21,16 @@ public class ApplicationDbContext : IdentityDbContext
         public DbSet<CategoriaReferencia> CategoriasReferencia { get; set; }
         public DbSet<RecursoReferencia> RecursosReferencia { get; set; }
 
+        public DbSet<Personal> Personal { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            
+            builder.Entity<Hito>()
+                .HasMany(h => h.PersonalAsignado)
+                .WithMany(p => p.HitosAsignados)
+                .UsingEntity(j => j.ToTable("HitoPersonal")); 
+        }
+
 
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ContratistasMM.Models;
 
 namespace ContratistasMM.Areas.Admin.Models
 {
@@ -21,5 +22,8 @@ namespace ContratistasMM.Areas.Admin.Models
 
         // Para subir múltiples archivos
         public List<IFormFile> Archivos { get; set; } = new();
+
+        public List<int> PersonalIds { get; set; } = new();
+        public List<Personal> PersonalDisponible { get; set; } = new();
     }
 }
