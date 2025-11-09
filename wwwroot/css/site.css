@@ -480,3 +480,22 @@ body {
     align-items: center;
     gap: 0.5rem;
 }
+
+.avatar-sm {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* --- Estilos para Gestión de Personal y Servicios --- */
+.personal-checkbox-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 5px;
+}
+.tox-tinymce {
+    border-radius: 5px !important;
+}

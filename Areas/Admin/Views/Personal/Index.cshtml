@@ -1,0 +1,90 @@
+@model IEnumerable<Personal>
+@{ ViewData["Title"] = "Gestión de Personal"; }
+
+<div class="container content-section">
+    <div class="admin-panel-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1>@ViewData["Title"]</h1>
+                <p class="text-muted">Administra los colaboradores de la empresa.</p>
+            </div>
+            <button class="btn btn-light js-crear-personal-btn">+ Nuevo Miembro</button>
+        </div>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null) { <div class="alert alert-success">@TempData["SuccessMessage"]</div> }
+    @if (TempData["ErrorMessage"] != null) { <div class="alert alert-danger">@TempData["ErrorMessage"]</div> }
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th>Nombre Completo</th>
+                <th>Cargo</th>
+                <th>Estado</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><img src="@(item.FotoUrl ?? "/img/placeholder_avatar.png")" class="avatar-sm" /></td>
+                    <td>@item.NombreCompleto</td>
+                    <td>@item.Cargo</td>
+                    <td><span class="badge bg-@(item.Estado == "Activo" ? "success" : "secondary")">@item.Estado</span></td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-secondary js-edit-personal-btn" data-id="@item.Id"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-outline-danger js-delete-personal-btn" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#eliminarPersonalModal"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modales -->
+<div id="modal-placeholder"></div>
+<div class="modal fade" id="eliminarPersonalModal" tabindex="-1">
+    <div class="modal-dialog"><div class="modal-content">
+        <form asp-action="Eliminar" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" id="deletePersonalId" />
+            <div class="modal-header"><h5 class="modal-title">Confirmar Eliminación</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body"><p>¿Estás seguro de que quieres eliminar a este miembro del personal?</p></div>
+            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Eliminar</button></div>
+        </form>
+    </div></div>
+</div>
+
+@section Scripts {
+    <script>
+    $(function() {
+        var placeholder = $('#modal-placeholder');
+
+        $('.js-crear-personal-btn').on('click', function() {
+            $.get('/Admin/Personal/Crear', function(data) {
+                placeholder.html(data);
+                placeholder.find('.modal').modal('show');
+            });
+        });
+
+        $('.js-edit-personal-btn').on('click', function() {
+            var id = $(this).data('id');
+            $.get('/Admin/Personal/Editar/' + id, function(data) {
+                placeholder.html(data);
+                placeholder.find('.modal').modal('show');
+            });
+        });
+
+        $('.js-delete-personal-btn').on('click', function() {
+            var id = $(this).data('id');
+            $('#deletePersonalId').val(id);
+        });
+
+        $('body').on('hidden.bs.modal', '.modal', function () {
+            placeholder.empty();
+        });
+    });
+    </script>
+}
