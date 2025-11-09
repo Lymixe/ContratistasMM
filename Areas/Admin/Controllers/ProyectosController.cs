@@ -204,11 +204,12 @@ public class ProyectosController : Controller
     }
     
     [HttpGet]
-    public IActionResult CrearHito(int proyectoId)
+    public async Task<IActionResult> CrearHito(int proyectoId) 
     {
         var viewModel = new HitoViewModel
         {
-            ProyectoId = proyectoId
+            ProyectoId = proyectoId,
+            PersonalDisponible = await _context.Personal.Where(p => p.Estado == "Activo").ToListAsync()
         };
         return PartialView("_CrearHitoModal", viewModel);
     }
@@ -230,7 +231,18 @@ public class ProyectosController : Controller
                     : null,
                 Estado = model.Estado
             };
+            if (model.PersonalIds.Any())
+            {
+                var personalAsignado = await _context.Personal
+                    .Where(p => model.PersonalIds.Contains(p.Id))
+                    .ToListAsync();
+                hito.PersonalAsignado = personalAsignado;
+            }
+            // -------------------------
 
+            _context.Hitos.Add(hito);
+            await _context.SaveChangesAsync(); 
+            
             // Procesar y guardar múltiples archivos
             if (model.Archivos != null && model.Archivos.Any())
             {
