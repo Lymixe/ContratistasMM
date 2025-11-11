@@ -22,6 +22,8 @@ public class ApplicationDbContext : IdentityDbContext
         public DbSet<RecursoReferencia> RecursosReferencia { get; set; }
 
         public DbSet<Personal> Personal { get; set; }
+
+        public DbSet<PreguntaFrecuente> PreguntasFrecuentes { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -746,3 +746,39 @@ body {
 .tox .tox-statusbar {
     display: none !important;
 }
+
+/* --- ESTILOS PARA LA PÁGINA DE SOPORTE --- */
+.resource-card {
+    display: flex;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #f0f2f5;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.resource-icon { font-size: 1.5rem; color: var(--primary-blue); margin-right: 1.5rem; padding-top: 0.25rem; }
+.resource-content h5 { font-weight: 600; margin-bottom: 0.5rem; }
+.resource-content p { color: #6c757d; margin-bottom: 0.75rem; }
+.resource-link { font-weight: 600; text-decoration: none; color: var(--primary-blue); }
+.resource-link:hover { text-decoration: underline; }
+
+.sidebar-widget {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #f0f2f5;
+}
+.quick-links a { text-decoration: none; color: #333; display: block; padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+.quick-links a:hover { color: var(--primary-blue); }
+
+.contact-box { background-color: var(--primary-blue); color: white; }
+.contact-box h5 { color: white; }
+.contact-box p { color: rgba(255,255,255,0.8); }
+.contact-info li { display: flex; align-items: center; margin-bottom: 0.5rem; }
+.contact-info i { margin-right: 1rem; width: 20px; text-align: center; }
+
+.faq-accordion .accordion-item { border-radius: 10px !important; margin-bottom: 1rem; }
+.faq-accordion .accordion-button { font-weight: 600; border-radius: 10px !important; }
+.faq-accordion .accordion-button:not(.collapsed) { background-color: #e3f2fd; color: var(--primary-blue); }
