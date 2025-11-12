@@ -17,11 +17,12 @@ namespace ContratistasMM.Models
         [Required]
         public string TipoRecurso { get; set; }
 
-        [Required]
-        public string Url { get; set; } // Puede ser un PDF o un enlace a un video
+        public string? Url { get; set; }
 
         // Relaciones
+        [Required(ErrorMessage = "Debe seleccionar una categoría.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar una categoría.")]
         public int CategoriaReferenciaId { get; set; }
-        public CategoriaReferencia CategoriaReferencia { get; set; } = null!;
+        public CategoriaReferencia CategoriaReferencia { get; set; }
     }
 }

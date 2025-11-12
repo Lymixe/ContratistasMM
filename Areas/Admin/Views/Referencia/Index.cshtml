@@ -1,4 +1,5 @@
-@model IEnumerable<RecursoReferencia>
+@using ContratistasMM.Areas.Admin.Models
+@model GestionReferenciaViewModel
 
 @{
     ViewData["Title"] = "Gestionar Contenido de Soporte";
@@ -7,41 +8,101 @@
 
 <div class="container content-section">
     <div class="admin-panel-header">
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
-                <h1>@ViewData["Title"]</h1>
-                <p class="text-muted">Administra las guías, tutoriales y enlaces del Centro de Soporte.</p>
-            </div>
-            <button class="btn btn-light js-crear-recurso-btn">+ Nuevo Recurso</button>
+        <div>
+            <h1>@ViewData["Title"]</h1>
+            <p class="text-muted">Administra las guías, categorías y enlaces del Centro de Soporte.</p>
         </div>
     </div>
 
-    @if (TempData["SuccessMessage"] != null) { <div class="alert alert-success">@TempData["SuccessMessage"]</div> }
-    @if (TempData["ErrorMessage"] != null) { <div class="alert alert-danger">@TempData["ErrorMessage"]</div> }
+    @if (TempData["SuccessMessage"] != null) { <div class="alert alert-success alert-dismissible fade show" role="alert">@TempData["SuccessMessage"]<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div> }
+    @if (TempData["ErrorMessage"] != null) { <div class="alert alert-danger alert-dismissible fade show" role="alert">@TempData["ErrorMessage"]<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div> }
+    
+    <div class="row g-4">
+        <!-- Columna para Recursos -->
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4>Recursos (Guías, Videos, etc.)</h4>
+                <button class="btn btn-primary js-crear-recurso-btn">+ Nuevo Recurso</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Título</th>
+                            <th>Categoría</th>
+                            <th>Tipo</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Recursos != null && Model.Recursos.Any())
+                        {
+                            @foreach (var item in Model.Recursos)
+                            {
+                                <tr>
+                                    <td><strong>@item.Titulo</strong></td>
+                                    <td>@(item.CategoriaReferencia?.Nombre ?? "Sin categoría")</td>
+                                    <td><span class="badge bg-secondary">@item.TipoRecurso</span></td>
+                                    <td class="text-end">
+                                        <button class="btn btn-sm btn-outline-secondary js-edit-recurso-btn" data-id="@item.Id" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-sm btn-outline-danger js-delete-recurso-btn" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#eliminarRecursoModal" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4" class="text-center">No hay recursos creados todavía.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <table class="table table-hover align-middle">
-        <thead><tr><th>Título</th><th>Categoría</th><th>Tipo</th><th></th></tr></thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td><strong>@item.Titulo</strong></td>
-                    <td>@item.CategoriaReferencia.Nombre</td>
-                    <td><span class="badge bg-secondary">@item.TipoRecurso</span></td>
-                    <td class="text-end">
-                        <button class="btn btn-sm btn-outline-secondary js-edit-recurso-btn" data-id="@item.Id"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-sm btn-outline-danger js-delete-recurso-btn" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#eliminarRecursoModal"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        <!-- Columna para Categorías -->
+        <div class="col-lg-4">
+            <h4>Categorías</h4>
+            <div class="card">
+                <div class="card-body">
+                    <form asp-action="CrearCategoria" method="post" class="d-flex gap-2 mb-3">
+                        @Html.AntiForgeryToken()
+                        <input type="text" name="nombre" class="form-control" placeholder="Nombre de la categoría" required />
+                        <button type="submit" class="btn btn-success flex-shrink-0">Crear</button>
+                    </form>
+                    
+                    <ul class="list-group list-group-flush">
+                        @if(Model.Categorias != null && Model.Categorias.Any())
+                        {
+                            @foreach(var cat in Model.Categorias)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        @cat.Nombre <span class="badge bg-secondary rounded-pill">@cat.Recursos.Count</span>
+                                    </div>
+                                    <form asp-action="EliminarCategoria" asp-route-id="@cat.Id" method="post" onsubmit="return confirm('¿Seguro que quieres eliminar esta categoría? Solo se puede eliminar si no tiene recursos asociados.');">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar categoría"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="list-group-item text-center text-muted">Aún no hay categorías.</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Placeholder para modales dinámicos -->
 <div id="modal-placeholder"></div>
 
-<!-- Modal estático para Eliminar -->
+<!-- Modal estático para Eliminar Recurso -->
 <div class="modal fade" id="eliminarRecursoModal" tabindex="-1">
     <div class="modal-dialog"><div class="modal-content">
         <form asp-action="Eliminar" method="post">
@@ -59,6 +120,7 @@
     $(function() {
         var placeholder = $('#modal-placeholder');
 
+        // Abrir modal para CREAR
         $('.js-crear-recurso-btn').on('click', function() {
             $.get('/Admin/Referencia/Crear', function(data) {
                 placeholder.html(data);
@@ -66,7 +128,8 @@
             });
         });
 
-        $('table').on('click', '.js-edit-recurso-btn', function() {
+        // Abrir modal para EDITAR (usando delegación de eventos)
+        $('body').on('click', '.js-edit-recurso-btn', function() {
             var id = $(this).data('id');
             $.get('/Admin/Referencia/Editar/' + id, function(data) {
                 placeholder.html(data);
@@ -74,13 +137,16 @@
             });
         });
 
-        $('table').on('click', '.js-delete-recurso-btn', function() {
+        // Configurar ID para ELIMINAR
+        $('body').on('click', '.js-delete-recurso-btn', function() {
             var id = $(this).data('id');
             $('#deleteRecursoId').val(id);
         });
 
+        // Limpiar el placeholder cuando se cierre un modal
         $('body').on('hidden.bs.modal', '.modal', function () {
-            placeholder.empty();
+            // Se usa $(this).remove() para destruir el modal y evitar conflictos con scripts internos
+            $(this).remove();
         });
     });
     </script>
