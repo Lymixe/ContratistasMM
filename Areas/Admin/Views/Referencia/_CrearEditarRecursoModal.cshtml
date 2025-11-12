@@ -1,0 +1,83 @@
+@model RecursoReferencia
+
+@{
+    bool isCreate = Model.Id == 0;
+    var formAction = isCreate ? "Crear" : "Editar";
+}
+
+<div class="modal fade" id="recursoModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form asp-action="@formAction" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h5 class="modal-title">@(isCreate ? "Nuevo Recurso" : "Editar Recurso")</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="mb-3">
+                        <label asp-for="Titulo" class="form-label"></label>
+                        <input asp-for="Titulo" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Descripcion" class="form-label"></label>
+                        <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="CategoriaReferenciaId" class="form-label">Categoría</label>
+                            <select asp-for="CategoriaReferenciaId" asp-items="@ViewBag.Categorias" class="form-select">
+                                <option value="">-- Seleccionar --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="TipoRecurso" class="form-label"></label>
+                            <select asp-for="TipoRecurso" class="form-select" id="tipoRecursoSelect">
+                                <option value="">-- Seleccionar --</option>
+                                <option>PDF</option>
+                                <option>Video</option>
+                                <option>Enlace Externo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3" id="urlInputContainer" style="display: none;">
+                        <label asp-for="Url" class="form-label">URL (para Video o Enlace)</label>
+                        <input asp-for="Url" class="form-control" />
+                    </div>
+                    <div class="mb-3" id="pdfInputContainer" style="display: none;">
+                        <label for="archivoPdf" class="form-label">Archivo PDF</label>
+                        <input name="archivoPdf" type="file" class="form-control" accept=".pdf" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">@(isCreate ? "Guardar" : "Actualizar")</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Script para mostrar/ocultar campos según el tipo de recurso
+    $(function() {
+        function toggleInputs() {
+            var selectedType = $('#tipoRecursoSelect').val();
+            if (selectedType === 'PDF') {
+                $('#pdfInputContainer').show();
+                $('#urlInputContainer').hide();
+            } else if (selectedType === 'Video' || selectedType === 'Enlace Externo') {
+                $('#pdfInputContainer').hide();
+                $('#urlInputContainer').show();
+            } else {
+                $('#pdfInputContainer').hide();
+                $('#urlInputContainer').hide();
+            }
+        }
+        // Ejecutar al cargar por si es una edición
+        toggleInputs(); 
+        // Ejecutar al cambiar la selección
+        $('#tipoRecursoSelect').on('change', toggleInputs);
+    });
+</script>

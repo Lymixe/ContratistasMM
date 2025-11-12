@@ -1,0 +1,39 @@
+@model PreguntaFrecuente
+
+@{
+    bool isCreate = Model.Id == 0;
+    var formAction = isCreate ? "Crear" : "Editar";
+}
+
+<div class="modal fade" id="faqModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form asp-action="@formAction" asp-route-id="@Model.Id" method="post">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h5 class="modal-title">@(isCreate ? "Nueva Pregunta" : "Editar Pregunta")</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="mb-3">
+                        <label asp-for="Pregunta" class="form-label"></label>
+                        <input asp-for="Pregunta" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Respuesta" class="form-label"></label>
+                        <textarea asp-for="Respuesta" class="form-control" rows="5"></textarea>
+                    </div>
+                     <div class="mb-3">
+                        <label asp-for="Orden" class="form-label"></label>
+                        <input asp-for="Orden" type="number" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">@(isCreate ? "Guardar" : "Actualizar")</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
