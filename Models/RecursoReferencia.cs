@@ -15,6 +15,9 @@ namespace ContratistasMM.Models
         public string? Descripcion { get; set; }
 
         [Required]
+        public string TipoRecurso { get; set; }
+
+        [Required]
         public string Url { get; set; } // Puede ser un PDF o un enlace a un video
 
         // Relaciones

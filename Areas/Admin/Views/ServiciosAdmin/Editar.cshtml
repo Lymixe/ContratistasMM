@@ -1,0 +1,78 @@
+@model Servicio
+
+@{
+    ViewData["Title"] = "Editar Servicio";
+}
+
+<div class="container content-section">
+    <div class="admin-panel-header">
+        <div>
+            <h1>@ViewData["Title"]: @Model.Nombre</h1>
+            <p class="text-muted">Usa los editores para modificar el contenido que verán los visitantes.</p>
+        </div>
+    </div>
+
+    <form asp-action="Editar" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Nombre" class="form-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="Caracteristicas" class="form-label"></label>
+                <input asp-for="Caracteristicas" class="form-control" />
+                <span asp-validation-for="Caracteristicas" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Descripcion" class="form-label">Descripción Completa</label>
+            <textarea asp-for="Descripcion" class="form-control wysiwyg" rows="10"></textarea>
+            <span asp-validation-for="Descripcion" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Beneficios" class="form-label">Beneficios (usar lista de viñetas)</label>
+            <textarea asp-for="Beneficios" class="form-control wysiwyg" rows="8"></textarea>
+            <span asp-validation-for="Beneficios" class="text-danger"></span>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        // Inicialización de TinyMCE
+        // Asegúrate de tener tu API Key en _Layout.cshtml
+        tinymce.init({
+            // Selector para aplicar el editor a los textareas con la clase 'wysiwyg'
+            selector: 'textarea.wysiwyg',
+            
+            // Plugins para funcionalidades adicionales
+            plugins: 'lists link image table code help wordcount autoresize',
+            
+            // Configuración de la barra de herramientas
+            toolbar: 'undo redo | blocks | bold italic underline | ' +
+                     'alignleft aligncenter alignright | bullist numlist outdent indent | ' +
+                     'link | code',
+                     
+            // Oculta la barra de menú superior (File, Edit, etc.)
+            menubar: false,
+            
+            // Altura mínima del editor
+            min_height: 250,
+            
+            // Elimina el mensaje "This domain is not registered..."
+            promotion: false,
+        });
+    </script>
+}

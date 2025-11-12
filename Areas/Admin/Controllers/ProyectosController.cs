@@ -53,9 +53,15 @@ public class ProyectosController : Controller
 
             var proyecto = new Proyecto
             {
-                Nombre = model.Nombre, Descripcion = model.Descripcion, Ubicacion = model.Ubicacion,
-                AnioEjecucion = model.AnioEjecucion, TipoObra = model.TipoObra, Estado = "En Progreso",
-                Progreso = 0, EsPublico = model.EsPublico, ClienteId = model.SelectedClienteId,
+                Nombre = model.Nombre,
+                Descripcion = model.Descripcion,
+                Ubicacion = model.Ubicacion,
+                AnioEjecucion = model.AnioEjecucion,
+                TipoObra = model.TipoObra,
+                Estado = "En Progreso",
+                Progreso = 0,
+                EsPublico = model.EsPublico,
+                ClienteId = model.SelectedClienteId,
                 FechaInicio = model.FechaInicio.HasValue ? DateTime.SpecifyKind(model.FechaInicio.Value, DateTimeKind.Utc) : null,
                 ImagenUrl = imageUrl
             };
@@ -76,10 +82,19 @@ public class ProyectosController : Controller
 
         var viewModel = new ProyectoViewModel
         {
-            Id = proyecto.Id, Nombre = proyecto.Nombre, Descripcion = proyecto.Descripcion, Ubicacion = proyecto.Ubicacion,
-            AnioEjecucion = proyecto.AnioEjecucion, TipoObra = proyecto.TipoObra, FechaInicio = proyecto.FechaInicio,
-            Estado = proyecto.Estado, Progreso = proyecto.Progreso, EsPublico = proyecto.EsPublico,
-            SelectedClienteId = proyecto.ClienteId, Clientes = await GetClientesSelectList(), ExistingImageUrl = proyecto.ImagenUrl
+            Id = proyecto.Id,
+            Nombre = proyecto.Nombre,
+            Descripcion = proyecto.Descripcion,
+            Ubicacion = proyecto.Ubicacion,
+            AnioEjecucion = proyecto.AnioEjecucion,
+            TipoObra = proyecto.TipoObra,
+            FechaInicio = proyecto.FechaInicio,
+            Estado = proyecto.Estado,
+            Progreso = proyecto.Progreso,
+            EsPublico = proyecto.EsPublico,
+            SelectedClienteId = proyecto.ClienteId,
+            Clientes = await GetClientesSelectList(),
+            ExistingImageUrl = proyecto.ImagenUrl
         };
         return PartialView("_EditarProyectoModal", viewModel);
     }
@@ -108,7 +123,7 @@ public class ProyectosController : Controller
             proyecto.FechaInicio = model.FechaInicio.HasValue ? DateTime.SpecifyKind(model.FechaInicio.Value, DateTimeKind.Utc) : null;
             proyecto.Estado = model.Estado; proyecto.Progreso = model.Progreso; proyecto.EsPublico = model.EsPublico;
             proyecto.ClienteId = model.SelectedClienteId;
-            
+
             _context.Update(proyecto);
             await _context.SaveChangesAsync();
             TempData["SuccessMessage"] = "Proyecto actualizado exitosamente.";
@@ -202,13 +217,14 @@ public class ProyectosController : Controller
 
         return View(viewModel);
     }
-    
+
     [HttpGet]
-    public IActionResult CrearHito(int proyectoId)
+    public async Task<IActionResult> CrearHito(int proyectoId)
     {
         var viewModel = new HitoViewModel
         {
-            ProyectoId = proyectoId
+            ProyectoId = proyectoId,
+            PersonalDisponible = await _context.Personal.Where(p => p.Estado == "Activo").ToListAsync()
         };
         return PartialView("_CrearHitoModal", viewModel);
     }
@@ -230,6 +246,17 @@ public class ProyectosController : Controller
                     : null,
                 Estado = model.Estado
             };
+            if (model.PersonalIds.Any())
+            {
+                var personalAsignado = await _context.Personal
+                    .Where(p => model.PersonalIds.Contains(p.Id))
+                    .ToListAsync();
+                hito.PersonalAsignado = personalAsignado;
+            }
+            // -------------------------
+
+            _context.Hitos.Add(hito);
+            await _context.SaveChangesAsync();
 
             // Procesar y guardar múltiples archivos
             if (model.Archivos != null && model.Archivos.Any())
@@ -266,7 +293,7 @@ public class ProyectosController : Controller
 
         return RedirectToAction("Detalle", new { id = model.ProyectoId });
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> CambiarVisibilidadDocumento(int id, bool esVisible)
     {
@@ -280,5 +307,6 @@ public class ProyectosController : Controller
         await _context.SaveChangesAsync();
         return Ok(new { message = "Visibilidad actualizada." }); // Devuelve una respuesta exitosa
     }
+
 
 }

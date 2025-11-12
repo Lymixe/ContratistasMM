@@ -3,6 +3,7 @@ using System;
 using ContratistasMM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ContratistasMM.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251109223549_AddPersonalManagement")]
+    partial class AddPersonalManagement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,13 +82,12 @@ namespace ContratistasMM.Migrations
 
                     b.Property<string>("Contenido")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("HitoId")
+                    b.Property<int>("HitoId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -196,30 +198,6 @@ namespace ContratistasMM.Migrations
                     b.ToTable("Personal");
                 });
 
-            modelBuilder.Entity("ContratistasMM.Models.PreguntaFrecuente", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Orden")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Pregunta")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Respuesta")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PreguntasFrecuentes");
-                });
-
             modelBuilder.Entity("ContratistasMM.Models.Proyecto", b =>
                 {
                     b.Property<int>("Id")
@@ -284,10 +262,6 @@ namespace ContratistasMM.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnType("text");
-
-                    b.Property<string>("TipoRecurso")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Titulo")
@@ -605,11 +579,15 @@ namespace ContratistasMM.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ContratistasMM.Models.Hito", null)
+                    b.HasOne("ContratistasMM.Models.Hito", "Hito")
                         .WithMany("Comentarios")
-                        .HasForeignKey("HitoId");
+                        .HasForeignKey("HitoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Autor");
+
+                    b.Navigation("Hito");
                 });
 
             modelBuilder.Entity("ContratistasMM.Models.Documento", b =>

@@ -1,0 +1,75 @@
+@model IEnumerable<Comentario>
+@{
+    ViewData["Title"] = "Comentarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container content-section">
+    <div class="section-title">
+        <h2>Comentarios de la Comunidad</h2>
+        <p>Lee lo que otros dicen sobre nuestro trabajo o comparte tu propia experiencia.</p>
+    </div>
+
+    <div class="row">
+        <!-- Columna para escribir un comentario -->
+        <div class="col-lg-4 mb-4">
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <div class="comment-form-card">
+                    <h4>Deja tu comentario</h4>
+                    <form asp-action="Crear" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            <textarea name="contenido" class="form-control" rows="5" placeholder="Escribe tu experiencia aquí..." required maxlength="1000"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-custom-primary w-100">Publicar Comentario</button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div class="comment-form-card">
+                    <h4>Participa en la conversación</h4>
+                    <p>Para dejar un comentario, por favor inicia sesión o regístrate.</p>
+                    <a class="btn btn-custom-primary w-100" asp-area="Identity" asp-page="/Account/Login">Iniciar Sesión</a>
+                </div>
+            }
+        </div>
+
+        <!-- Columna para mostrar comentarios -->
+        <div class="col-lg-8">
+            <div class="comment-list">
+                @if (Model.Any())
+                {
+                    @foreach (var comentario in Model)
+                    {
+                        <div class="comment-card">
+                            <div class="comment-header">
+                                <span class="comment-author">@comentario.Autor.Nombre @comentario.Autor.Apellido</span>
+                                <span class="comment-date">@comentario.FechaCreacion.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</span>
+                            </div>
+                            <div class="comment-body">
+                                <p>@comentario.Contenido</p>
+                            </div>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <div class="comment-admin-actions">
+                                    <form asp-action="Eliminar" asp-route-id="@comentario.Id" method="post" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este comentario?');">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i> Eliminar
+                                        </button>
+                                    </form>
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-center">Aún no hay comentarios. ¡Sé el primero en compartir tu experiencia!</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

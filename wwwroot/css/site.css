@@ -480,3 +480,368 @@ body {
     align-items: center;
     gap: 0.5rem;
 }
+
+.avatar-sm {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* --- Estilos para Gestión de Personal y Servicios --- */
+.personal-checkbox-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 5px;
+}
+.tox-tinymce {
+    border-radius: 5px !important;
+}
+
+
+/* =================================================================== */
+/* =================== PANEL DE ADMINISTRACIÓN (TODO) ================ */
+/* =================================================================== */
+
+/* --- Estructura y Encabezado General del Admin --- */
+.admin-panel-header {
+    background-color: transparent;
+    margin-bottom: 2.5rem;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 1.5rem;
+}
+
+.admin-panel-header h1 {
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+/* --- Dashboard (Estadísticas y Acciones Rápidas) --- */
+.stat-card {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f0f2f5;
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.stat-icon.icon-active {
+    background-color: #e3f2fd;
+    color: #3B82F6;
+}
+
+.stat-icon.icon-completed {
+    background-color: #e8f5e9;
+    color: #4caf50;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.action-panel {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f0f2f5;
+}
+
+.action-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-decoration: none;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    color: #333;
+    transition: all 0.2s ease-in-out;
+    height: 100%;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    border-color: var(--primary-blue);
+}
+
+.action-card i {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--primary-blue);
+}
+
+.action-card span {
+    font-weight: 600;
+}
+
+.action-card.primary {
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+}
+
+.action-card.primary i {
+    color: white;
+}
+
+
+/* --- Gestión de Proyectos (Lista de Tarjetas) --- */
+.project-manage-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f0f2f5;
+    margin-bottom: 1.5rem;
+}
+
+.project-manage-card .card-header,
+.project-manage-card .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fdfdff;
+    border-color: #f0f2f5;
+    padding: 1rem 1.5rem;
+}
+
+.project-manage-card .card-footer {
+    gap: 1rem;
+}
+
+.project-manage-card .card-body {
+    padding: 1.5rem;
+}
+
+.status-badge-EnProgreso {
+    background-color: #e0f2fe;
+    color: #0ea5e9;
+    padding: 0.4em 0.8em;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.status-badge-Finalizado {
+    background-color: #dcfce7;
+    color: #22c55e;
+    padding: 0.4em 0.8em;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.status-badge-Pendiente {
+    background-color: #f3f4f6;
+    color: #6b7280;
+    padding: 0.4em 0.8em;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.progress-section {
+    margin-top: 1rem;
+}
+
+.progress-section label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #6c757d;
+}
+
+/* --- Detalle de Proyecto (Cliente y Admin) --- */
+.project-detail-header-card {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07);
+    margin-bottom: 2.5rem;
+    overflow: hidden;
+}
+
+.project-detail-header-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.project-detail-header-card .card-body { padding: 2rem; }
+.project-stats { margin-top: 1.5rem; color: #555; }
+.project-stats .col-6 i { color: var(--primary-blue); margin-right: 8px; }
+
+/* Pestañas de Navegación */
+.nav-pills { background-color: #f0f2f5; border-radius: 50px; padding: 0.5rem; }
+.nav-pills .nav-item { flex-grow: 1; text-align: center; }
+.nav-pills .nav-link { background: none; color: #555; font-weight: 600; border-radius: 50px; padding: 0.75rem 1.5rem; transition: all 0.3s ease; }
+.nav-pills .nav-link.active { background-color: var(--primary-blue); color: white; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4); }
+
+/* Tarjetas de Hitos */
+.hito-card { display: flex; align-items: flex-start; background-color: #fff; border: 1px solid #e9ecef; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; }
+.hito-icon { font-size: 1.5rem; margin-right: 1.5rem; padding-top: 0.25rem; }
+.hito-icon.completado { color: #22c55e; }
+.hito-icon.en, .hito-icon.progreso { color: #f59e0b; }
+.hito-icon.pendiente { color: #6b7280; }
+.hito-content { flex-grow: 1; }
+
+/* Lista de Documentos del Admin */
+.document-list-admin .list-group-item { padding: 1rem 1.5rem; }
+.document-list-admin i { margin-right: 1rem; color: var(--primary-blue); }
+.document-list-admin a { text-decoration: none; color: #333; font-weight: 500; }
+.document-list-admin a:hover { text-decoration: underline; }
+
+
+/* --- Gestión de Personal --- */
+.avatar-sm {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.personal-checkbox-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    padding: 1rem;
+    border-radius: .375rem; /* Bootstrap's default radius */
+}
+
+/* --- Editor de Texto Enriquecido (TinyMCE) --- */
+.tox-tinymce {
+    border-radius: .375rem !important;
+    border-color: #dee2e6 !important;
+}
+
+.tox .tox-statusbar {
+    display: none !important;
+}
+
+/* --- ESTILOS PARA LA PÁGINA DE SOPORTE --- */
+.resource-card {
+    display: flex;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #f0f2f5;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.resource-icon { font-size: 1.5rem; color: var(--primary-blue); margin-right: 1.5rem; padding-top: 0.25rem; }
+.resource-content h5 { font-weight: 600; margin-bottom: 0.5rem; }
+.resource-content p { color: #6c757d; margin-bottom: 0.75rem; }
+.resource-link { font-weight: 600; text-decoration: none; color: var(--primary-blue); }
+.resource-link:hover { text-decoration: underline; }
+
+.sidebar-widget {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #f0f2f5;
+}
+.quick-links a { text-decoration: none; color: #333; display: block; padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+.quick-links a:hover { color: var(--primary-blue); }
+
+.contact-box { background-color: var(--primary-blue); color: white; }
+.contact-box h5 { color: white; }
+.contact-box p { color: rgba(255,255,255,0.8); }
+.contact-info li { display: flex; align-items: center; margin-bottom: 0.5rem; }
+.contact-info i { margin-right: 1rem; width: 20px; text-align: center; }
+
+.faq-accordion .accordion-item { border-radius: 10px !important; margin-bottom: 1rem; }
+.faq-accordion .accordion-button { font-weight: 600; border-radius: 10px !important; }
+.faq-accordion .accordion-button:not(.collapsed) { background-color: #e3f2fd; color: var(--primary-blue); }
+
+
+/* --- ESTILOS PARA LA SECCIÓN DE COMENTARIOS --- */
+.comment-form-card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid #f0f2f5;
+    position: sticky; /* Para que el formulario se quede fijo al hacer scroll */
+    top: 20px;
+}
+
+.comment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.comment-card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #f0f2f5;
+    position: relative;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.comment-author {
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+.comment-date {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.comment-body p {
+    margin: 0;
+    line-height: 1.6;
+    color: #333;
+}
+
+.comment-admin-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.comment-card:hover .comment-admin-actions {
+    opacity: 1;
+}

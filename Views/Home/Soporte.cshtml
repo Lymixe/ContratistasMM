@@ -1,0 +1,82 @@
+@model SoporteViewModel
+@{ ViewData["Title"] = "Centro de Soporte"; }
+
+<div class="container content-section">
+    <div class="section-title">
+        <h2>Guías y Referencia Técnica</h2>
+        <p>Encuentra documentos, normativas y tutoriales que te ayudarán en tus proyectos.</p>
+    </div>
+
+    <div class="row">
+        <!-- Columna Principal de Contenido -->
+        <div class="col-lg-8">
+            <ul class="nav nav-pills mb-4" id="pills-tab-soporte" role="tablist">
+                <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#pills-guias">Guías y Tutoriales</button></li>
+                <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-faq">Preguntas Frecuentes</button></li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Pestaña de Guías -->
+                <div class="tab-pane fade show active" id="pills-guias">
+                    @foreach (var recurso in Model.Recursos)
+                    {
+                        <div class="resource-card">
+                            <div class="resource-icon">
+                                <i class="fas @(recurso.TipoRecurso == "Video" ? "fa-play-circle" : "fa-file-alt")"></i>
+                            </div>
+                            <div class="resource-content">
+                                <h5>@recurso.Titulo <span class="badge bg-light text-dark">@recurso.CategoriaReferencia.Nombre</span></h5>
+                                <p>@recurso.Descripcion</p>
+                                <a href="@recurso.Url" target="_blank" class="resource-link">
+                                    @(recurso.TipoRecurso == "Video" ? "Ver video" : "Descargar " + recurso.TipoRecurso) &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- Pestaña de FAQ -->
+                <div class="tab-pane fade" id="pills-faq">
+                    <div class="accordion faq-accordion" id="faqAccordion">
+                        @foreach (var faq in Model.FAQs)
+                        {
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-@faq.Id">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@faq.Id">
+                                        @faq.Pregunta
+                                    </button>
+                                </h2>
+                                <div id="collapse-@faq.Id" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        @Html.Raw(faq.Respuesta) <!-- Usamos Raw por si la respuesta tiene HTML -->
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barra Lateral -->
+        <div class="col-lg-4">
+            <div class="sidebar-widget">
+                <h5>Enlaces Rápidos</h5>
+                <ul class="list-unstyled quick-links">
+                    @foreach (var cat in Model.Categorias)
+                    {
+                        <li><a href="#">@cat.Nombre</a></li>
+                    }
+                </ul>
+            </div>
+            <div class="sidebar-widget contact-box">
+                <h5>¿Necesitas Más Ayuda?</h5>
+                <p>Nuestro equipo está disponible para responder tus consultas.</p>
+                <ul class="list-unstyled contact-info">
+                    <li><i class="far fa-envelope"></i> soporte@contratistasmm.com</li>
+                    <li><i class="fas fa-phone"></i> +51 912 345 678</li>
+                    <li><i class="far fa-clock"></i> Lun - Vie: 8:00 - 18:00</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
