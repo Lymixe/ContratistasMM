@@ -1,0 +1,87 @@
+@model IEnumerable<RecursoReferencia>
+
+@{
+    ViewData["Title"] = "Gestionar Contenido de Soporte";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container content-section">
+    <div class="admin-panel-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1>@ViewData["Title"]</h1>
+                <p class="text-muted">Administra las guías, tutoriales y enlaces del Centro de Soporte.</p>
+            </div>
+            <button class="btn btn-light js-crear-recurso-btn">+ Nuevo Recurso</button>
+        </div>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null) { <div class="alert alert-success">@TempData["SuccessMessage"]</div> }
+    @if (TempData["ErrorMessage"] != null) { <div class="alert alert-danger">@TempData["ErrorMessage"]</div> }
+
+    <table class="table table-hover align-middle">
+        <thead><tr><th>Título</th><th>Categoría</th><th>Tipo</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><strong>@item.Titulo</strong></td>
+                    <td>@item.CategoriaReferencia.Nombre</td>
+                    <td><span class="badge bg-secondary">@item.TipoRecurso</span></td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-secondary js-edit-recurso-btn" data-id="@item.Id"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-outline-danger js-delete-recurso-btn" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#eliminarRecursoModal"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Placeholder para modales dinámicos -->
+<div id="modal-placeholder"></div>
+
+<!-- Modal estático para Eliminar -->
+<div class="modal fade" id="eliminarRecursoModal" tabindex="-1">
+    <div class="modal-dialog"><div class="modal-content">
+        <form asp-action="Eliminar" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" id="deleteRecursoId" />
+            <div class="modal-header"><h5 class="modal-title">Confirmar Eliminación</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body"><p>¿Estás seguro de que quieres eliminar este recurso?</p></div>
+            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Eliminar</button></div>
+        </form>
+    </div></div>
+</div>
+
+@section Scripts {
+    <script>
+    $(function() {
+        var placeholder = $('#modal-placeholder');
+
+        $('.js-crear-recurso-btn').on('click', function() {
+            $.get('/Admin/Referencia/Crear', function(data) {
+                placeholder.html(data);
+                placeholder.find('.modal').modal('show');
+            });
+        });
+
+        $('table').on('click', '.js-edit-recurso-btn', function() {
+            var id = $(this).data('id');
+            $.get('/Admin/Referencia/Editar/' + id, function(data) {
+                placeholder.html(data);
+                placeholder.find('.modal').modal('show');
+            });
+        });
+
+        $('table').on('click', '.js-delete-recurso-btn', function() {
+            var id = $(this).data('id');
+            $('#deleteRecursoId').val(id);
+        });
+
+        $('body').on('hidden.bs.modal', '.modal', function () {
+            placeholder.empty();
+        });
+    });
+    </script>
+}
