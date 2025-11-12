@@ -782,3 +782,66 @@ body {
 .faq-accordion .accordion-item { border-radius: 10px !important; margin-bottom: 1rem; }
 .faq-accordion .accordion-button { font-weight: 600; border-radius: 10px !important; }
 .faq-accordion .accordion-button:not(.collapsed) { background-color: #e3f2fd; color: var(--primary-blue); }
+
+
+/* --- ESTILOS PARA LA SECCIÓN DE COMENTARIOS --- */
+.comment-form-card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid #f0f2f5;
+    position: sticky; /* Para que el formulario se quede fijo al hacer scroll */
+    top: 20px;
+}
+
+.comment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.comment-card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #f0f2f5;
+    position: relative;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.comment-author {
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+.comment-date {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.comment-body p {
+    margin: 0;
+    line-height: 1.6;
+    color: #333;
+}
+
+.comment-admin-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.comment-card:hover .comment-admin-actions {
+    opacity: 1;
+}

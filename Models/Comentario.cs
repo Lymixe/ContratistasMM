@@ -11,12 +11,12 @@ namespace ContratistasMM.Models
         public int Id { get; set; }
 
         [Required]
+        [MaxLength(1000, ErrorMessage = "El comentario no puede exceder los 1000 caracteres.")]
         public string Contenido { get; set; }
         public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
 
-        // Relaciones
-        public int HitoId { get; set; }
-        public Hito Hito { get; set; } = null!;
+        // Relación con el autor (usuario que lo escribió)
+        [Required]
         public string AutorId { get; set; }
         public ApplicationUser Autor { get; set; } = null!;
     }
